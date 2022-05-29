@@ -1,0 +1,54 @@
+.sumi-btn-1 {
+  background: #3f687f;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 4px 4px 6px -2px rgba(0, 0, 0, 0.33);
+  color: rgba(230, 230, 230, 0.67);
+  cursor: pointer;
+  display: inline-block;
+  line-height: 32px;
+  margin: 6px;
+  padding: 0 16px;
+  text-decoration: none;
+  user-select: none;
+}
+
+.sumi-btn-1:hover {
+  filter: brightness(1.33) hue-rotate(-135deg);
+  transition: ease 0.15s;
+}
+
+.container {
+  margin: 6px;
+  padding: 6px;
+}
+
+.sub-container {
+  background: #282f33;
+  border-radius: 16px;
+  margin: 6px;
+  padding: 6px;
+}
+
+.flex-1 {
+  align-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+hr.rule {
+  background: #1a1a1a;
+  border: none;
+  filter: opacity(0.33);
+  height: 2px;
+  margin: 8px 2px;
+}
+
+hr.rule-nomarg {
+  background: #1a1a1a;
+  border: none;
+  filter: opacity(0.33);
+  height: 4px;
+  margin: 2px 2px;
+}
