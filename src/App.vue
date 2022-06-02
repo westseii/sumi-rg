@@ -2,122 +2,106 @@
   import { computed, ref } from "vue";
   import { RouterLink, RouterView } from "vue-router";
 
-  import { skillExperienceCosts as expCost, skillCap as cap } from "@/game.js";
-  // import { creatureAttributes, creatureSkills } from "@/game.js";
-  // import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
+  import { skillExperienceCosts as expCosts, skillCap } from "@/gameVars.js";
 
-  // const player = usePlayerCharacterStore();
-
-  //
-  // setup
-
+  // +Dev
   const showExpPanel = ref(true);
   const toggleExpPanel = () => {
     if (showExpPanel.value) showExpPanel.value = false;
     else showExpPanel.value = true;
   };
 
-  // set initial experience
-  let availableExp = 25_000;
-  const availableExpFormatted = ref(availableExp.toLocaleString("en-US"));
+  // set initial experience pool
+  const availableExp = ref(25_000);
+  const availableExpDisplay = computed(() => availableExp.value.toLocaleString("en-US"));
 
-  // total experience ever acquired
-  let totalExp = availableExp;
-  const totalExpFormatted = ref(availableExp.toLocaleString("en-US"));
+  // total experience ever earned
+  const totalExp = ref(availableExp.value);
+  const totalExpDisplay = computed(() => totalExp.value.toLocaleString("en-US"));
 
-  // randomize experience gain for testing
-  let minExpGain = 125_000;
-  let maxExpGain = 500_000;
-  const randomExp = () => Math.floor(Math.random() * (maxExpGain - minExpGain + 1)) + minExpGain;
-  let nextExpGain = randomExp();
-  const nextExpGainFormatted = ref(nextExpGain.toLocaleString("en-US"));
+  // randomize experience gain
+  const minGain = 1250;
+  const maxGain = 1_250_000;
+  const randomGain = () => Math.floor(Math.random() * (maxGain - minGain + 1)) + minGain;
+  const nextExpGain = ref(randomGain());
+  const nextExpGainDisplay = computed(() => nextExpGain.value.toLocaleString("en-US"));
 
-  // current skill level achieved
-  const currentSkillLevel = ref(1);
-  const nextSkillLevelCostFormatted = ref(
-    expCost[currentSkillLevel.value - 1].toLocaleString("en-US")
-  );
+  // current skill level
+  const skillLevel = ref(1);
+  const nextSkillCost = computed(() => expCosts[skillLevel.value - 1]);
+  const isNotSkillCapped = computed(() => skillLevel.value < skillCap);
+  const canRaiseSkill = computed(() => availableExp.value - nextSkillCost.value >= 0);
+  const nextSkillCostDisplay = computed(() => {
+    if (!isNotSkillCapped.value) return "INFINITY!";
+    else return expCosts[skillLevel.value - 1].toLocaleString("en-US");
+  });
 
-  setInf(); // init "INFINITY!"; if needed
+  // tooltip info
+  const minGainDisplay = computed(() => minGain.toLocaleString("en-US"));
+  const maxGainDisplay = computed(() => maxGain.toLocaleString("en-US"));
+  const expGainTooltip = `
+  Grants between ${minGainDisplay.value} and ${maxGainDisplay.value} kill experience (so that science can still be done).
+  `;
 
-  //
-  // end setup
-
-  // check that maximum skill level has been reached
-  function setInf() {
-    if (currentSkillLevel.value === cap) {
-      nextSkillLevelCostFormatted.value = "INFINITY!";
-    }
-  }
-
-  // check that experience is available, and if so, add it
-  const levelUpCharSkill = () => {
-    if (currentSkillLevel.value < cap) {
-      const nextSkillUp = expCost[currentSkillLevel.value - 1];
-
-      if (availableExp - nextSkillUp >= 0) {
-        // law of equivalent exchange, betch
-        availableExp -= nextSkillUp;
-        currentSkillLevel.value++;
-
-        // add/update commas for display; update as needed
-        availableExpFormatted.value = availableExp.toLocaleString("en-US");
-        nextSkillLevelCostFormatted.value =
-          expCost[currentSkillLevel.value - 1].toLocaleString("en-US");
-
-        setInf();
-      }
+  // other functions
+  const raiseSkillLevel = () => {
+    if (isNotSkillCapped.value && canRaiseSkill.value) {
+      availableExp.value -= nextSkillCost.value;
+      skillLevel.value++;
     }
   };
 
-  const grantCharExp = () => {
-    // add experience to available
-    availableExp += nextExpGain;
-    availableExpFormatted.value = availableExp.toLocaleString("en-US");
-
-    // update total ever earned
-    totalExp += nextExpGain;
-    totalExpFormatted.value = totalExp.toLocaleString("en-US");
-
-    // choose the next random amount of experience to gain
-    nextExpGain = randomExp();
-    nextExpGainFormatted.value = nextExpGain.toLocaleString("en-US");
+  const expGain = () => {
+    availableExp.value += nextExpGain.value;
+    totalExp.value += nextExpGain.value;
+    nextExpGain.value = randomGain();
   };
+
+  const expClass = computed(() => {
+    if (!isNotSkillCapped.value) return "capped";
+    else {
+      if (canRaiseSkill.value) return "available";
+      else return "unavailable";
+    }
+  });
 </script>
 
 <template>
-  <button class="sumi-btn-1 btn-red" @click="toggleExpPanel" v-show="showExpPanel">ᛖ ᚲ ᛊ ᛈ</button>
-  <div class="sub-container exp" v-show="!showExpPanel">
+  <button class="sumi-btn-1 btn-hay" @click="toggleExpPanel" v-show="showExpPanel">
+    (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧
+  </button>
+  <div class="sub-container" v-show="!showExpPanel">
+    <button class="sumi-btn-1 exp-toggle btn-hay" @click="toggleExpPanel">(っ´ω`c)</button>
+    <h2>Exp</h2>
+    <br />
     <p>
-      Next:&ensp;<span>{{ nextSkillLevelCostFormatted }}</span>
+      Next cost: <span :class="expClass">{{ nextSkillCostDisplay }}</span>
     </p>
     <p>
-      <span>{{ currentSkillLevel }}&ensp;/&ensp;{{ cap }}</span>
+      <span>{{ skillLevel }} / {{ skillCap }}</span>
     </p>
     <p>
-      Available:&ensp;<span>{{ availableExpFormatted }}</span>
+      Available: <span>{{ availableExpDisplay }}</span>
     </p>
     <p>
-      Earned:&ensp;<span>{{ totalExpFormatted }}</span>
+      Earned: <span>{{ totalExpDisplay }}</span>
     </p>
-    <button
-      class="sumi-btn-1"
-      v-show="!(nextSkillLevelCostFormatted === 'INFINITY!')"
-      @click="levelUpCharSkill"
-    >
+    <br />
+    <button class="sumi-btn-1" @click="expGain" v-tooltip="expGainTooltip">
+      +{{ nextExpGainDisplay }} Exp
+    </button>
+    <button class="sumi-btn-1" @click="raiseSkillLevel" v-show="isNotSkillCapped && canRaiseSkill">
       +1 pt
     </button>
-    <button class="sumi-btn-1" @click="grantCharExp">+{{ nextExpGainFormatted }} Exp</button>
-    <button class="sumi-btn-1 exp-toggle btn-red" @click="toggleExpPanel">betch</button>
   </div>
-  <hr class="rule-nomarg" />
+  <hr class="rule" v-show="!showExpPanel" />
   <div class="flex-1">
-    <RouterLink class="sumi-btn-1" to="/">Minimal View</RouterLink>
-    <RouterLink class="sumi-btn-1" to="/doll">Extended View</RouterLink>
-    <RouterLink class="sumi-btn-1 btn-green" to="/hit-calc">Hit Pt Calculator</RouterLink>
-    <RouterLink class="sumi-btn-1 btn-green" to="/">Trades</RouterLink>
-    <RouterLink class="sumi-btn-1 btn-green" to="/">Tools</RouterLink>
-    <button class="sumi-btn-1 btn-gay">(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧</button>
+    <RouterLink class="sumi-btn-1" to="/">Overview</RouterLink>
+    <RouterLink class="sumi-btn-1" to="/doll/attributes">Doll</RouterLink>
+    <RouterLink class="sumi-btn-1 btn-green" to="/hit-calc">Hit Pt</RouterLink>
+    <RouterLink class="sumi-btn-1 btn-green" :disabled="!false" to="">Atlas</RouterLink>
+    <RouterLink class="sumi-btn-1 btn-green" :disabled="!false" to="">Crafting</RouterLink>
+    <RouterLink class="sumi-btn-1 btn-green" :disabled="!false" to="">Inventory</RouterLink>
   </div>
   <RouterView />
 </template>
@@ -126,24 +110,28 @@
   @import "@/assets/normalize.css";
   @import "@/assets/base.css";
   @import "@/assets/custom.css";
+  @import "@/assets/tooltip.css";
 
   #app {
-    background: linear-gradient(-60deg, #16a085, #f4d03f);
     min-height: inherit;
     padding: 20px;
-  }
-
-  .exp {
-    overflow: auto;
-    position: relative;
-    width: 300px;
+    width: 600px;
   }
 
   .exp-toggle {
-    border-radius: 0 0 0 16px;
-    position: absolute;
-    right: -6px;
-    top: -6px;
+    float: right;
+  }
+
+  .available {
+    color: green;
+  }
+
+  .unavailable {
+    color: brown;
+  }
+
+  .capped {
+    color: royalblue;
   }
 
   .btn-red {
@@ -154,7 +142,7 @@
     background: #3f7f4f;
   }
 
-  .btn-gay {
+  .btn-hay {
     background: linear-gradient(-30deg, #fdeff9, #ec38bc, #7303c0, #03001e);
   }
 </style>

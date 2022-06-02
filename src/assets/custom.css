@@ -1,33 +1,59 @@
 .sumi-btn-1 {
   background: #3f687f;
-  border-radius: 16px;
+  border-radius: 14px;
   border: none;
-  box-shadow: 4px 4px 6px -2px rgba(0, 0, 0, 0.33);
+  box-shadow: 4px 4px 6px -2px rgba(26, 26, 26, 0.33), inset -4px -4px 12px -4px #1a1a1a;
   color: rgba(230, 230, 230, 0.67);
   cursor: pointer;
   display: inline-block;
-  line-height: 32px;
-  margin: 6px;
-  padding: 0 16px;
+  line-height: 28px;
+  margin: 4px;
+  padding: 0 14px;
   text-decoration: none;
   user-select: none;
 }
 
 .sumi-btn-1:hover {
-  filter: brightness(1.33) hue-rotate(-135deg);
+  filter: brightness(1.5) hue-rotate(-30deg);
   transition: ease 0.15s;
 }
 
+.sumi-btn-1:active {
+  position: relative;
+  top: 1px;
+}
+
+.sumi-btn-1[disabled="true"] {
+  cursor: not-allowed;
+  filter: brightness(0.5) hue-rotate(180deg) opacity(0.67);
+  top: 0;
+}
+
+input[type="text"] {
+  background: #1a1a1a;
+  border-radius: 4px;
+  border: none;
+  color: inherit;
+  height: 28px;
+  margin-left: 20px;
+  text-align: center;
+  width: 80px;
+}
+
 .container {
-  margin: 6px;
-  padding: 6px;
+  margin: 4px;
+  padding: 4px;
 }
 
 .sub-container {
-  background: #282f33;
-  border-radius: 16px;
-  margin: 6px;
-  padding: 6px;
+  background: linear-gradient(30deg, rgba(22, 29, 33, 1), rgba(40, 47, 51, 1));
+  border-radius: 14px;
+  margin: 4px;
+  padding: 4px;
+}
+
+.sub-container > .sub-container {
+  background: none;
 }
 
 .flex-1 {

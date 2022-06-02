@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 
+import { usePlayerInventoryStore } from "@/stores/playerInventory.js";
+import { usePlayerNotorietyStore } from "@/stores/playerNotoriety.js";
+
 export const usePlayerCharacterStore = defineStore({
   id: "playerCharacter",
   state: () => ({
@@ -26,8 +29,9 @@ export const usePlayerCharacterStore = defineStore({
       cunning: 750,
       instinct: 750,
     },
-    // skills: usePlayerSkillsStore,
-    // inventory: usePlayerInventoryStore,
+    skillStage: [],
+    inventory: usePlayerInventoryStore(),
+    notoriety: usePlayerNotorietyStore(),
     quote: `The hasty rushing to and fro to fight, pry, claim, and steal.
     This land called <redacted>, where so many perish in the daily strife...
     Why have we been brought, to such a place of discord.

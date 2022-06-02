@@ -4,6 +4,7 @@ import HitPtCalc from "@/views/HitPtCalc.vue";
 import MinimalView from "@/views/MinimalView.vue";
 import PaperDoll from "@/views/PaperDoll.vue";
 import PaperDollAttributes from "@/views/PaperDollAttributes.vue";
+import PaperDollNotoriety from "@/views/PaperDollNotoriety.vue";
 import PaperDollQuote from "@/views/PaperDollQuote.vue";
 import PaperDollSkills from "@/views/PaperDollSkills.vue";
 
@@ -25,6 +26,10 @@ const router = createRouter({
         {
           path: "skills",
           component: PaperDollSkills,
+        },
+        {
+          path: "notoriety",
+          component: PaperDollNotoriety,
         },
         {
           path: "quote",

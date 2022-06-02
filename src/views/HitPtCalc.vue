@@ -3,8 +3,7 @@
 
   const roundTo = 3;
 
-  // range (0, 1]; lower values are more forgiving
-  // accounts for everyone not bringing their A game
+  // range (0, 1]; lower values offer more forgiveness
   const forgiveness = 0.9;
 
   // default values
@@ -21,18 +20,18 @@
     () =>
       Number(numPlayers.value) +
       Number(numPlayers.value) * Number(synRamp.value) -
-      Number(synRamp.value)
+      Number(synRamp.value),
   );
   const synRampFinalNotNeg = computed(() =>
-    synRampFinal.value >= 0 ? synRampFinal.value.toFixed(roundTo) : 0
+    synRampFinal.value >= 0 ? synRampFinal.value.toFixed(roundTo) : 0,
   );
   const removableFinal = computed(() => synRampFinalNotNeg.value - numPlayersRemovable.value);
   const removableFinalNotNeg = computed(() =>
-    removableFinal.value >= 0 ? removableFinal.value.toFixed(roundTo) : 0
+    removableFinal.value >= 0 ? removableFinal.value.toFixed(roundTo) : 0,
   );
   const timeShiftFinal = computed(() => totalCombatTime.value - totalCombatTimeShift.value);
   const timeShiftFinalNotNeg = computed(() =>
-    timeShiftFinal.value >= 0 ? timeShiftFinal.value : 0
+    timeShiftFinal.value >= 0 ? timeShiftFinal.value : 0,
   );
   // formatted with commas
   const totalHp = computed(() =>
@@ -41,8 +40,8 @@
         synRampFinalNotNeg.value *
         (Number(dpsPerPlayer.value) * forgiveness) *
         (Number(totalCombatTime.value) - 1)
-      ).toFixed(0)
-    ).toLocaleString("en-US")
+      ).toFixed(0),
+    ).toLocaleString("en-US"),
   );
   // formatted with commas
   const totalHpAdjusted = computed(() =>
@@ -51,14 +50,15 @@
         removableFinalNotNeg.value *
         (Number(dpsPerPlayer.value) * forgiveness) *
         (Number(timeShiftFinalNotNeg.value) - 1)
-      ).toFixed(0)
-    ).toLocaleString("en-US")
+      ).toFixed(0),
+    ).toLocaleString("en-US"),
   );
 </script>
 
 <template>
   <div class="sub-container">
-    <h2>HitPtCalc</h2>
+    <h2>Hit Pt</h2>
+    <p>Mob tuning and degeneracy.</p>
     <hr class="rule" />
     <div class="flex-1">
       <div class="panel">
@@ -120,27 +120,18 @@
     </div>
     <hr class="rule" />
     <p>
-      totalHp:&ensp;<span class="hp">{{ totalHp }}</span>
+      totalHp: <span class="hp">{{ totalHp }}</span>
     </p>
+    <br />
+    <p>Final hit point value with adjustments + forgiveness applied.</p>
     <p>
-      totalHpAdjusted:&ensp;<span class="hp">{{ totalHpAdjusted }}</span>
+      totalHpAdjusted: <span class="hp">{{ totalHpAdjusted }}</span>
     </p>
   </div>
 </template>
 
 <style scoped>
   .sub-container {
-  }
-
-  input[type="text"] {
-    background: #1a1a1a;
-    border-radius: 4px;
-    border: none;
-    color: inherit;
-    height: 28px;
-    margin-left: 20px;
-    text-align: center;
-    width: 80px;
   }
 
   .panel {
