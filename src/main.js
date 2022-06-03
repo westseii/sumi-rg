@@ -1,9 +1,8 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 
-import App from "@/App.vue";
+import App from "@/sb/Sandbox.vue";
 import router from "@/router/routes.js";
-
 import tooltip from "@/directives/tooltip.js";
 
 const app = createApp(App);
