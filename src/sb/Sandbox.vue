@@ -1,113 +1,138 @@
 <script setup>
   import { computed } from "vue";
 
-  import { skills as pseudo, skillsStatus as rank } from "@/sb/skillsStore.js";
+  import { skills, playerSkills } from "@/sb/skillsStore.js";
 
   // computed vars
   const prodigal = computed(() =>
-    pseudo.value.filter((skill) => rank.value[skill.id] === 4).sort((a, b) => a.name > b.name),
+    skills.value
+      .filter((skill) => playerSkills.value[skill.id].rank === 4)
+      .sort((a, b) => a.name > b.name),
   );
   const specialized = computed(() =>
-    pseudo.value.filter((skill) => rank.value[skill.id] === 3).sort((a, b) => a.name > b.name),
+    skills.value
+      .filter((skill) => playerSkills.value[skill.id].rank === 3)
+      .sort((a, b) => a.name > b.name),
   );
   const trained = computed(() =>
-    pseudo.value.filter((skill) => rank.value[skill.id] === 2).sort((a, b) => a.name > b.name),
+    skills.value
+      .filter((skill) => playerSkills.value[skill.id].rank === 2)
+      .sort((a, b) => a.name > b.name),
   );
   const untrained = computed(() =>
-    pseudo.value.filter((skill) => rank.value[skill.id] === 1).sort((a, b) => a.name > b.name),
+    skills.value
+      .filter((skill) => playerSkills.value[skill.id].rank === 1)
+      .sort((a, b) => a.name > b.name),
   );
   const unusable = computed(() =>
-    pseudo.value.filter((skill) => rank.value[skill.id] === 0).sort((a, b) => a.name > b.name),
+    skills.value
+      .filter((skill) => playerSkills.value[skill.id].rank === 0)
+      .sort((a, b) => a.name > b.name),
   );
 </script>
 
 <template>
-  <h1>Sandbox</h1>
+  <h1>Skills</h1>
   <hr class="rule" />
   <div class="container">
-    <h2 v-show="prodigal.length">Prodigal ({{ prodigal.length }})</h2>
+    <h2 v-show="prodigal.length">Prodigy ({{ prodigal.length }})</h2>
+    <p style="margin-bottom: 4px" v-show="prodigal.length">
+      Your extraordinary talents and abilities. You are truly second to none!
+    </p>
     <div>
-      <div class="skill-pane" v-for="p in prodigal" :key="p.id">
+      <div class="skill-pane" v-for="s in prodigal" :key="s.id">
         <div class="pseudo-ico"></div>
-        <p class="name">{{ p.name }}</p>
+        <p class="name">{{ s.name }}</p>
         <p class="value">
-          {{ p.value + p.cantrip
-          }}<span class="cantrip" v-show="p.cantrip"> (+{{ p.cantrip }})</span>
+          {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
+          }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
+            (+{{ playerSkills[s.id].cantrip }})</span
+          >
         </p>
       </div>
     </div>
     <h2 v-show="specialized.length">Specialized ({{ specialized.length }})</h2>
+    <p style="margin-bottom: 4px" v-show="specialized.length">
+      Talents in which you are heavily invested.
+    </p>
     <div>
-      <div class="skill-pane" v-for="p in specialized" :key="p.id">
+      <div class="skill-pane" v-for="s in specialized" :key="s.id">
         <div class="pseudo-ico"></div>
-        <p class="name">{{ p.name }}</p>
+        <p class="name">{{ s.name }}</p>
         <p class="value">
-          {{ p.value + p.cantrip
-          }}<span class="cantrip" v-show="p.cantrip"> (+{{ p.cantrip }})</span>
+          {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
+          }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
+            (+{{ playerSkills[s.id].cantrip }})</span
+          >
         </p>
       </div>
     </div>
     <h2 v-show="trained.length">Trained ({{ trained.length }})</h2>
+    <p style="margin-bottom: 4px" v-show="trained.length">Todo: Desc.</p>
     <div>
-      <div class="skill-pane" v-for="p in trained" :key="p.id">
+      <div class="skill-pane" v-for="s in trained" :key="s.id">
         <div class="pseudo-ico"></div>
-        <p class="name">{{ p.name }}</p>
+        <p class="name">{{ s.name }}</p>
         <p class="value">
-          {{ p.value + p.cantrip
-          }}<span class="cantrip" v-show="p.cantrip"> (+{{ p.cantrip }})</span>
+          {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
+          }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
+            (+{{ playerSkills[s.id].cantrip }})</span
+          >
         </p>
       </div>
     </div>
     <h2 v-show="untrained.length">Untrained ({{ untrained.length }})</h2>
+    <p style="margin-bottom: 4px" v-show="untrained.length">Todo: Desc.</p>
     <div>
-      <div class="skill-pane" v-for="p in untrained" :key="p.id">
+      <div class="skill-pane" v-for="s in untrained" :key="s.id">
         <div class="pseudo-ico"></div>
-        <p class="name">{{ p.name }}</p>
+        <p class="name">{{ s.name }}</p>
         <p class="value">
-          {{ p.value + p.cantrip
-          }}<span class="cantrip" v-show="p.cantrip"> (+{{ p.cantrip }})</span>
+          {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
+          }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
+            (+{{ playerSkills[s.id].cantrip }})</span
+          >
         </p>
       </div>
     </div>
     <h2 v-show="unusable.length">Unusable ({{ unusable.length }})</h2>
+    <p style="margin-bottom: 4px" v-show="unusable.length">Todo: Desc.</p>
     <div>
-      <div class="skill-pane" v-for="p in unusable" :key="p.id">
+      <div class="skill-pane" v-for="s in unusable" :key="s.id">
         <div class="pseudo-ico"></div>
-        <p class="name">{{ p.name }}</p>
+        <p class="name">{{ s.name }}</p>
         <p class="value">
-          {{ p.value + p.cantrip
-          }}<span class="cantrip" v-show="p.cantrip"> (+{{ p.cantrip }})</span>
+          {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
+          }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
+            (+{{ playerSkills[s.id].cantrip }})</span
+          >
         </p>
       </div>
     </div>
   </div>
-  <hr class="rule" />
 </template>
 
 <style>
   /* global */
-  html {
-    font-size: 10px;
-    height: 100vh;
-    line-height: 18px;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
+  @import "@/assets/normalize.css";
+  @import "@/assets/base.css";
 
   body {
-    background: linear-gradient(190deg, rgba(32, 40, 64, 1) 10%, rgba(16, 16, 24, 1) 90%);
-    color: #bfbfbf;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 20px;
   }
 </style>
 
 <style scoped>
   /* local */
   h1,
-  h2 {
-    margin: 1rem 0;
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: thistle;
+    font-weight: normal;
+    margin: 8px 0;
   }
 
   h1 {
@@ -115,40 +140,49 @@
   }
 
   h2 {
-    color: cornflowerblue;
     font-size: 1.6rem;
-    font-weight: normal;
   }
 
-  .container {
-    font-size: 1.2rem;
-    padding: 0 10px;
-    width: 350px;
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1.4rem;
   }
 
   hr.rule {
-    background: linear-gradient(100deg, rgba(64, 64, 64, 0.1) 10%, rgba(128, 159, 159, 0.15) 90%);
+    background: rgba(230, 230, 230, 0.075);
     border-radius: 2px;
     border: none;
     height: 4px;
-    margin: 10px 0;
+    margin: 8px 2px;
+  }
+
+  .container {
+    width: 300px;
   }
 
   .skill-pane {
     align-items: center;
-    background: linear-gradient(100deg, rgba(64, 64, 64, 0.1) 10%, rgba(128, 159, 159, 0.15) 90%);
-    border-radius: 0 12px 12px 0;
-    border-top: solid 0.5px rgba(128, 159, 159, 0.67);
-    box-shadow: inset -2px -2px 8px 0 rgba(128, 159, 159, 0.33);
+    background: linear-gradient(33deg, rgba(64, 64, 64, 0.1), rgba(128, 159, 191, 0.15));
+    border-bottom: solid 0.5px rgba(64, 64, 64, 0.67);
+    border-top: solid 0.5px rgba(191, 191, 191, 0.67);
+    box-shadow: inset -6px -6px 6px -6px rgba(128, 159, 191, 0.33);
     display: flex;
     height: 32px;
-    margin-top: 2px;
-    padding: 0 12px;
+    padding: 0 6px;
     user-select: none;
   }
 
   .skill-pane:hover {
-    filter: brightness(1.5) hue-rotate(-45deg);
+    background: linear-gradient(
+      165deg,
+      rgba(64, 64, 64, 0.05),
+      rgba(128, 159, 191, 0.1),
+      rgba(96, 96, 191, 0.38)
+    );
+    color: #0080ff;
+    filter: brightness(1.5) hue-rotate(-15deg);
   }
 
   .skill-pane:last-child {
@@ -159,25 +193,31 @@
     font-weight: bold;
   }
 
+  .fx {
+    color: cadetblue;
+    font-size: 1rem;
+    margin-left: auto;
+  }
+
   .value {
-    font-weight: bold;
     margin-left: auto;
   }
 
   .cantrip {
-    color: aqua;
-    font-weight: normal;
+    color: #0080ff;
   }
 
   .pseudo-ico {
-    background: rgba(191, 191, 191, 0.1);
-    border-left: solid 0.5px rgba(128, 159, 159, 0.67);
-    border-radius: 12px;
-    border-top: solid 0.5px rgba(128, 159, 159, 0.67);
-    box-shadow: inset -2px -2px 8px 0 rgba(128, 159, 159, 0.33);
-    height: 24px;
-    margin-left: -6px;
+    background-image: url("../assets/ico/magic-swirl.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-left: solid 0.5px rgba(191, 191, 191, 0.67);
+    border-radius: 4px;
+    border-top: solid 0.5px rgba(191, 191, 191, 0.67);
+    box-shadow: inset -3px -3px 12px 0 rgba(96, 96, 191, 0.5);
+    height: 28px;
+    margin-left: -4px;
     margin-right: 6px;
-    width: 24px;
+    width: 28px;
   }
 </style>
