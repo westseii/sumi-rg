@@ -274,28 +274,37 @@ const playerSkills = ref([
   },
   {
     id: 22,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 23,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 24,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 25,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
 ]);
+
+// quick hack
+// if a skill is unusable, then it is truly unusable
+for (const skill in playerSkills.value) {
+  if (playerSkills.value[skill].rank === 0) {
+    playerSkills.value[skill].val = 0;
+    playerSkills.value[skill].cantrip = 0;
+  }
+}
 
 export { skills, playerSkills };
