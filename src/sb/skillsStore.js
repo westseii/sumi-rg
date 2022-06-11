@@ -186,7 +186,7 @@ const playerSkills = ref([
     id: 7,
     rank: 3,
     val: 25,
-    cantrip: 6,
+    cantrip: 0,
   },
   {
     id: 8,

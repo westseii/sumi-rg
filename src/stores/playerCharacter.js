@@ -6,10 +6,12 @@ import { usePlayerNotorietyStore } from "@/stores/playerNotoriety.js";
 export const usePlayerCharacterStore = defineStore({
   id: "playerCharacter",
   state: () => ({
-    name: "Zabmagi",
-    race: "Sadoran",
+    name: "Huli",
+    race: "Shade",
     gender: "Male",
     level: 50,
+    availableExp: 25_000,
+    totalExp: 25_000,
     vitality: {
       health: 410,
       stamina: 410,
@@ -37,4 +39,8 @@ export const usePlayerCharacterStore = defineStore({
     Why have we been brought, to such a place of discord.
     Where even...`,
   }),
+  getters: {
+    availableExpLocale: (state) => state.availableExp.toLocaleString("en-US"),
+    totalExpLocale: (state) => state.totalExp.toLocaleString("en-US"),
+  },
 });
