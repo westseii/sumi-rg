@@ -144,113 +144,113 @@ const playerSkills = ref([
     id: 0,
     rank: 1,
     val: 10,
-    cantrip: 10,
+    cantrip: 0,
   },
   {
     id: 1,
+    rank: 3,
+    val: 25,
+    cantrip: 0,
+  },
+  {
+    id: 2,
     rank: 1,
     val: 10,
     cantrip: 0,
   },
   {
-    id: 2,
-    rank: 2,
-    val: 10,
-    cantrip: 10,
-  },
-  {
     id: 3,
-    rank: 2,
+    rank: 1,
     val: 10,
     cantrip: 0,
   },
   {
     id: 4,
-    rank: 3,
-    val: 10,
-    cantrip: 10,
+    rank: 4,
+    val: 35,
+    cantrip: 0,
   },
   {
     id: 5,
-    rank: 3,
+    rank: 1,
     val: 10,
     cantrip: 0,
   },
   {
     id: 6,
-    rank: 4,
-    val: 10,
-    cantrip: 10,
-  },
-  {
-    id: 7,
-    rank: 4,
+    rank: 1,
     val: 10,
     cantrip: 0,
   },
   {
+    id: 7,
+    rank: 3,
+    val: 25,
+    cantrip: 6,
+  },
+  {
     id: 8,
-    rank: 1,
-    val: 10,
+    rank: 2,
+    val: 15,
     cantrip: 0,
   },
   {
     id: 9,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 10,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 11,
-    rank: 1,
-    val: 10,
+    rank: 2,
+    val: 15,
     cantrip: 0,
   },
   {
     id: 12,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 13,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 14,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 15,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 16,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 17,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 18,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
@@ -262,19 +262,19 @@ const playerSkills = ref([
   },
   {
     id: 20,
-    rank: 1,
+    rank: 0,
     val: 10,
     cantrip: 0,
   },
   {
     id: 21,
-    rank: 1,
+    rank: 2,
     val: 10,
     cantrip: 0,
   },
   {
     id: 22,
-    rank: 0,
+    rank: 2,
     val: 10,
     cantrip: 0,
   },
@@ -286,7 +286,7 @@ const playerSkills = ref([
   },
   {
     id: 24,
-    rank: 0,
+    rank: 2,
     val: 10,
     cantrip: 0,
   },
@@ -298,13 +298,46 @@ const playerSkills = ref([
   },
 ]);
 
-// quick hack
-// if a skill is unusable, then it is truly unusable
-for (const skill in playerSkills.value) {
-  if (playerSkills.value[skill].rank === 0) {
-    playerSkills.value[skill].val = 0;
-    playerSkills.value[skill].cantrip = 0;
-  }
+const skillsSpecial = ref([
+  {
+    id: 0,
+    name: "Shadow Tactics",
+    fx: "None",
+  },
+]);
+
+const playerSkillsSpecial = ref([
+  {
+    id: 0,
+    val: 100,
+    cantrip: 0,
+  },
+]);
+
+//
+// sim
+
+function getRandIntInc(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export { skills, playerSkills };
+playerSkills.value.forEach((skill) => {
+  if (skill.rank === 4) skill.val = getRandIntInc(150, 175);
+  else if (skill.rank === 3) skill.val = getRandIntInc(125, 149);
+  else if (skill.rank === 2) skill.val = getRandIntInc(100, 124);
+});
+
+playerSkills.value.forEach((skill) => (skill.cantrip += 25));
+
+// quick hack
+// if a skill is unusable, then it is truly unusable
+playerSkills.value.forEach((skill) => {
+  if (skill.rank === 0) {
+    skill.val = 0;
+    skill.cantrip = 0;
+  }
+});
+
+export { skills, playerSkills, skillsSpecial, playerSkillsSpecial };

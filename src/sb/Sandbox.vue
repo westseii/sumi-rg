@@ -1,9 +1,12 @@
 <script setup>
   import { computed } from "vue";
 
-  import { skills, playerSkills } from "@/sb/skillsStore.js";
+  import SkillTab from "@/components/SkillTab.vue";
+
+  import { skills, playerSkills, skillsSpecial, playerSkillsSpecial } from "@/sb/skillsStore.js";
 
   // computed vars
+  const special = computed(() => skillsSpecial.value.sort((a, b) => a.name > b.name));
   const prodigal = computed(() =>
     skills.value
       .filter((skill) => playerSkills.value[skill.id].rank === 4)
@@ -29,96 +32,125 @@
       .filter((skill) => playerSkills.value[skill.id].rank === 0)
       .sort((a, b) => a.name > b.name),
   );
+
+  const playerName = "Huli";
+  const playerRace = "Shade";
+
+  function success(payload) {
+    console.log(payload);
+  }
 </script>
 
 <template>
-  <h1>Skills</h1>
-  <hr class="rule" />
-  <div class="container">
-    <div class="rank-pane" v-show="prodigal.length">
-      <h2 class="rank-heading">Prodigy</h2>
-      <span class="rank-count">{{ prodigal.length }}</span>
+  <h1>
+    <span v-show="playerName">{{ playerName }}'s&nbsp;</span>Skills
+  </h1>
+  <div class="example">
+    <hr class="rule-sm" />
+    <div style="height: 576px; overflow: scroll; scrollbar-width: none; width: 350px">
+      <div class="pane rank" v-show="special.length">
+        <div class="v-rule-sm" />
+        <h2>Innate / Racial</h2>
+      </div>
+      <div class="pane-row" v-for="s in special" :key="s.id">
+        <div class="ico1"></div>
+        <p class="clr-special">{{ s.name }}</p>
+        <span class="can-val-align">
+          <span class="cantrip" v-show="playerSkillsSpecial[s.id].cantrip"
+            >(+{{ playerSkillsSpecial[s.id].cantrip }})&nbsp;</span
+          >
+          <p class="value">
+            {{ playerSkillsSpecial[s.id].val + playerSkillsSpecial[s.id].cantrip }}
+          </p>
+        </span>
+      </div>
+      <div class="pane rank" v-show="prodigal.length">
+        <div class="v-rule-sm" />
+        <h2>Prodigy</h2>
+      </div>
+      <div class="pane-row" v-for="s in prodigal" :key="s.id">
+        <div class="ico1"></div>
+        <p class="clr-prodigy">{{ s.name }}</p>
+        <span class="can-val-align">
+          <span class="cantrip" v-show="playerSkills[s.id].cantrip"
+            >(+{{ playerSkills[s.id].cantrip }})&nbsp;</span
+          >
+          <p class="value">{{ playerSkills[s.id].val + playerSkills[s.id].cantrip }}</p>
+        </span>
+      </div>
+      <div class="pane rank" v-show="specialized.length">
+        <div class="v-rule-sm" />
+        <h2>Specialized</h2>
+      </div>
+      <div class="pane-row" v-for="s in specialized" :key="s.id">
+        <div class="ico1"></div>
+        <p class="clr-specialized">{{ s.name }}</p>
+        <span class="can-val-align">
+          <span class="cantrip" v-show="playerSkills[s.id].cantrip"
+            >(+{{ playerSkills[s.id].cantrip }})&nbsp;</span
+          >
+          <p class="value">{{ playerSkills[s.id].val + playerSkills[s.id].cantrip }}</p>
+        </span>
+      </div>
+      <div class="pane rank" v-show="trained.length">
+        <div class="v-rule-sm" />
+        <h2>Trained</h2>
+      </div>
+      <div class="pane-row" v-for="s in trained" :key="s.id">
+        <div class="ico1"></div>
+        <p class="clr-trained">{{ s.name }}</p>
+        <span class="can-val-align">
+          <span class="cantrip" v-show="playerSkills[s.id].cantrip"
+            >(+{{ playerSkills[s.id].cantrip }})&nbsp;</span
+          >
+          <p class="value">{{ playerSkills[s.id].val + playerSkills[s.id].cantrip }}</p>
+        </span>
+      </div>
+      <div class="pane rank" v-show="untrained.length">
+        <div class="v-rule-sm" />
+        <h2>Untrained</h2>
+      </div>
+      <div class="pane-row" v-for="s in untrained" :key="s.id">
+        <div class="ico1"></div>
+        <p class="clr-untrained">{{ s.name }}</p>
+        <span class="can-val-align">
+          <span class="cantrip" v-show="playerSkills[s.id].cantrip"
+            >(+{{ playerSkills[s.id].cantrip }})&nbsp;</span
+          >
+          <p class="value">{{ playerSkills[s.id].val + playerSkills[s.id].cantrip }}</p>
+        </span>
+      </div>
+      <div class="pane rank" v-show="unusable.length">
+        <div class="v-rule-sm" />
+        <h2>Unusable</h2>
+      </div>
+      <div class="pane-row" v-for="s in unusable" :key="s.id">
+        <div class="ico1"></div>
+        <p class="clr-unusable">{{ s.name }}</p>
+        <span class="can-val-align">
+          <span class="cantrip" v-show="playerSkills[s.id].cantrip"
+            >(+{{ playerSkills[s.id].cantrip }})&nbsp;</span
+          >
+          <p class="value clr-unusable">
+            {{ playerSkills[s.id].val + playerSkills[s.id].cantrip }}
+          </p>
+        </span>
+      </div>
     </div>
-
-    <div class="skill-pane color-prodigy" v-for="s in prodigal" :key="s.id">
-      <div class="pseudo-ico"></div>
-      <p class="name">{{ s.name }}</p>
-      <p class="value">
-        {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
-        }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
-          (+{{ playerSkills[s.id].cantrip }})</span
-        >
-      </p>
-    </div>
-
-    <div class="rank-pane" v-show="specialized.length">
-      <h2 class="rank-heading">Specialized</h2>
-      <span class="rank-count">{{ specialized.length }}</span>
-    </div>
-
-    <div class="skill-pane color-specialized" v-for="s in specialized" :key="s.id">
-      <div class="pseudo-ico"></div>
-      <p class="name">{{ s.name }}</p>
-      <p class="value">
-        {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
-        }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
-          (+{{ playerSkills[s.id].cantrip }})</span
-        >
-      </p>
-    </div>
-
-    <div class="rank-pane" v-show="trained.length">
-      <h2 class="rank-heading">Trained</h2>
-      <span class="rank-count">{{ trained.length }}</span>
-    </div>
-
-    <div class="skill-pane color-trained" v-for="s in trained" :key="s.id">
-      <div class="pseudo-ico"></div>
-      <p class="name">{{ s.name }}</p>
-      <p class="value">
-        {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
-        }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
-          (+{{ playerSkills[s.id].cantrip }})</span
-        >
-      </p>
-    </div>
-
-    <div class="rank-pane" v-show="untrained.length">
-      <h2 class="rank-heading">Untrained</h2>
-      <span class="rank-count">{{ untrained.length }}</span>
-    </div>
-
-    <div class="skill-pane color-untrained" v-for="s in untrained" :key="s.id">
-      <div class="pseudo-ico"></div>
-      <p class="name">{{ s.name }}</p>
-      <p class="value">
-        {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
-        }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
-          (+{{ playerSkills[s.id].cantrip }})</span
-        >
-      </p>
-    </div>
-
-    <div class="rank-pane" v-show="unusable.length">
-      <h2 class="rank-heading">Unusable</h2>
-      <span class="rank-count">{{ unusable.length }}</span>
-    </div>
-
-    <div class="skill-pane color-unusable" v-for="s in unusable" :key="s.id">
-      <div class="pseudo-ico"></div>
-      <p class="name">{{ s.name }}</p>
-      <p class="value">
-        {{ playerSkills[s.id].val + playerSkills[s.id].cantrip
-        }}<span class="cantrip" v-show="playerSkills[s.id].cantrip">
-          (+{{ playerSkills[s.id].cantrip }})</span
-        >
-      </p>
+    <div class="pane" style="width: 350px">
+      <h2>Raise (NYI)</h2>
+      <p>[placeholder]</p>
+      <p></p>
     </div>
   </div>
-  <div class="skill-container">
-    <p>Available: {{ 0 }}</p>
-    <p>Cost: {{ 0 }}</p>
-  </div>
+  <br />
+  <skill-tab
+    style="width: 350px"
+    :skill="'Skill Name'"
+    :rank="4"
+    :value="100"
+    :cantrip="25"
+  /><br />
 </template>
 
 <style>
@@ -127,11 +159,11 @@
   @import "@/assets/base.css";
 
   body {
-    padding: 24px;
+    padding: 24px 0 0 24px;
   }
 </style>
 
-<style scoped>
+<style>
   /* local */
   h1,
   h2,
@@ -139,9 +171,9 @@
   h4,
   h5,
   h6 {
-    color: thistle;
+    color: rgba(96, 128, 159, 0.85);
     font-weight: normal;
-    margin: 8px 0;
+    margin: 6px 0;
   }
 
   h1 {
@@ -159,123 +191,148 @@
     font-size: 1.4rem;
   }
 
+  .example {
+    background: linear-gradient(185deg, transparent, rgb(12, 18, 24), rgb(36, 18, 12));
+    max-width: fit-content;
+  }
+
   hr.rule {
-    background: rgba(230, 230, 230, 0.075);
+    background: linear-gradient(90deg, rgba(48, 64, 80, 0.33) 67%, transparent);
     border-radius: 2px;
     border: none;
     height: 4px;
-    margin: 14px 2px;
+    margin: 4px 2px 16px 2px;
   }
 
-  .rank-pane {
+  hr.rule-sm {
+    background: linear-gradient(90deg, rgba(48, 64, 80, 0.33) 67%, transparent);
+    border-radius: 1px;
+    border: none;
+    height: 2px;
+    margin: 2px 2px 8px 2px;
+  }
+
+  .v-rule-sm {
+    background: rgba(48, 64, 80, 0.33);
+    border-radius: 3px;
+    margin: 0 13px;
+    padding: 3px;
+  }
+
+  .frame-style1 {
+    background: linear-gradient(
+      -22.5deg,
+      rgba(96, 128, 159, 0.165) 5%,
+      rgba(48, 64, 80, 0.1),
+      rgba(128, 159, 191, 0.05) 95%
+    );
+    box-shadow: inset 6px 6px 24px 0 rgba(96, 128, 159, 0.165);
+  }
+
+  .pane {
+    background: linear-gradient(
+      -22.5deg,
+      rgba(96, 128, 159, 0.165) 5%,
+      rgba(48, 64, 80, 0.1),
+      rgba(128, 159, 191, 0.05) 95%
+    );
+    /* border-left: solid 0.5px rgb(64, 72, 80); */
+    /* border-right: solid 0.5px rgb(32, 36, 40); */
+    border-bottom: solid 0.5px rgb(32, 36, 40);
+    border-top: solid 0.5px rgb(64, 72, 80);
+    box-shadow: inset 6px 6px 24px 0 rgba(96, 128, 159, 0.165);
+    padding: 5.5px 6px;
+  }
+
+  .pane-row {
     align-items: center;
+    background: linear-gradient(
+      -22.5deg,
+      rgba(96, 128, 159, 0.165) 5%,
+      rgba(48, 64, 80, 0.1),
+      rgba(128, 159, 191, 0.05) 95%
+    );
+    border-bottom: solid 0.5px rgb(32, 36, 40);
+    border-top: solid 0.5px rgb(64, 72, 80);
+    box-shadow: inset 6px 6px 24px 0 rgba(96, 128, 159, 0.165);
     display: flex;
-    line-height: 32px;
-    margin-top: 16px;
+    height: 32px;
+    padding: 0 6px;
     user-select: none;
   }
 
-  .rank-pane:first-child {
-    margin-top: 0;
+  .pane-row:hover {
+    filter: brightness(1.5);
   }
 
-  .rank-heading {
-    margin: 0;
+  .rank {
+    align-items: center;
+    background: none;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    height: 32px;
+    padding: 0;
+    user-select: none;
   }
 
-  .rank-count {
-    border-radius: 14px;
-    box-shadow: inset -4px -4px 12px 0 rgba(216, 191, 216, 0.165);
+  .rank-cnt {
+    border-radius: 12px;
+    box-shadow: inset 3px 3px 12px 0 rgba(96, 128, 159, 0.165);
+    color: rgba(96, 128, 159, 0.85);
     display: inline-block;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     line-height: 0;
-    margin-left: 6px;
     padding: 12px 0;
     text-align: center;
     width: 24px;
   }
 
-  .container {
-    height: 496px;
-    overflow: scroll;
-    width: 350px;
-  }
-
-  .skill-container {
-    background: linear-gradient(0deg, rgba(64, 64, 64, 0.05) 33%, rgba(128, 159, 191, 0.165) 90%);
-    border-bottom: solid 0.5px rgba(64, 64, 64, 0.67);
-    border-top: solid 0.5px rgba(191, 191, 191, 0.67);
-    box-shadow: inset -2px -2px 4px 0 rgba(128, 159, 191, 0.15);
-    height: 96px;
-    padding: 6px;
-    width: 350px;
-  }
-
-  .skill-pane {
-    align-items: center;
-    background: linear-gradient(0deg, rgba(64, 64, 64, 0.05) 33%, rgba(128, 159, 191, 0.165) 90%);
-    border-bottom: solid 0.5px rgba(64, 64, 64, 0.67);
-    border-top: solid 0.5px rgba(191, 191, 191, 0.67);
-    box-shadow: inset -2px -2px 4px 0 rgba(128, 159, 191, 0.15);
-    display: flex;
-    height: 32px;
-    padding: 0 22px 0 6px;
-    user-select: none;
-  }
-
-  .color-prodigy {
-    color: rgb(191, 255, 255);
-  }
-
-  .color-specialized {
-    color: rgb(159, 223, 223);
-  }
-
-  .color-trained {
-    color: rgb(159, 223, 159);
-  }
-
-  .color-untrained {
-    color: rgb(128, 191, 128);
-  }
-
-  .color-unusable {
-    color: rgb(128, 80, 80);
-  }
-
-  .skill-pane:hover {
-    filter: brightness(1.67);
-  }
-
-  .name {
-    /* font-weight: bold; */
-  }
-
-  .fx {
-    color: rgba(128, 128, 128, 0.5);
-    font-size: 1rem;
-    margin-left: auto;
-  }
-
-  .value {
-    margin-left: auto;
-  }
-
-  .cantrip {
-    color: rgb(223, 96, 191);
-  }
-
-  .pseudo-ico {
+  .ico1 {
     background-image: url("../assets/ico/magic-swirl.png");
     background-repeat: no-repeat;
     background-size: cover;
-    border-bottom: solid 0.5px rgba(64, 64, 64, 0.67);
-    border-radius: 4px;
-    border-top: solid 0.5px rgba(191, 191, 191, 0.67);
-    box-shadow: inset -4px -4px 12px 0 rgba(128, 159, 191, 0.33);
+    border-radius: 6px;
+    box-shadow: inset -6px -6px 12px 0 rgba(96, 128, 159, 0.33);
     height: 28px;
-    margin-left: -4px;
+    margin-left: -4.5px;
     margin-right: 6px;
     width: 28px;
+  }
+
+  .clr-special {
+    color: rgb(191, 80, 159);
+  }
+
+  .clr-prodigy {
+    color: rgb(80, 191, 159);
+  }
+
+  .clr-specialized {
+    color: rgb(48, 191, 48);
+  }
+
+  .clr-trained {
+    color: rgb(120, 191, 120);
+  }
+
+  .clr-untrained {
+    color: rgb(191, 191, 191);
+  }
+
+  .clr-unusable {
+    color: rgb(128, 80, 80);
+  }
+
+  .cantrip {
+    color: rgb(80, 159, 191);
+  }
+
+  .value {
+    display: inline;
+  }
+
+  .can-val-align {
+    margin-left: auto;
   }
 </style>
