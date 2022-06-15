@@ -219,7 +219,7 @@ const playerSkillsPool = ref([
     },
     {
       id: 1,
-      rank: 1,
+      rank: 4,
       val: 10,
       cantrip: 0,
     },
@@ -255,13 +255,13 @@ const playerSkillsPool = ref([
     },
     {
       id: 7,
-      rank: 1,
+      rank: 3,
       val: 10,
       cantrip: 0,
     },
     {
       id: 8,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
@@ -279,7 +279,7 @@ const playerSkillsPool = ref([
     },
     {
       id: 11,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
@@ -297,7 +297,7 @@ const playerSkillsPool = ref([
     },
     {
       id: 14,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
@@ -339,19 +339,19 @@ const playerSkillsPool = ref([
     },
     {
       id: 21,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
     {
       id: 22,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
     {
       id: 23,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
@@ -379,7 +379,7 @@ const playerSkillsPool = ref([
 
 //
 // sim
-const cantripAdd = 0;
+const cantripAdd = 9;
 
 function getRandIntInc(min, max) {
   min = Math.ceil(min);
@@ -388,9 +388,9 @@ function getRandIntInc(min, max) {
 }
 
 playerSkillsPool.value[0].forEach((skill) => {
-  if (skill.rank === 4) skill.val = getRandIntInc(150, 174);
-  else if (skill.rank === 3) skill.val = getRandIntInc(125, 149);
-  else if (skill.rank === 2) skill.val = getRandIntInc(100, 124);
+  if (skill.rank === 4) skill.val = getRandIntInc(50, 74);
+  else if (skill.rank === 3) skill.val = getRandIntInc(25, 49);
+  else if (skill.rank === 2) skill.val = getRandIntInc(0, 24);
 });
 
 playerSkillsPool.value[0].forEach((skill) => (skill.cantrip += cantripAdd));

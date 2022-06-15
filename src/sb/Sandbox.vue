@@ -152,7 +152,7 @@
         <h2>{{ skillsPool[skillSelectedPool][skillSelectedId].name }}</h2>
         <h2 style="margin-left: auto">{{ skillsPool[skillSelectedPool][skillSelectedId].fx }}</h2>
       </div>
-      <div style="max-height: 100px; overflow: scroll; scrollbar-width: none">
+      <div style="max-height: 84px; overflow: scroll; scrollbar-width: none">
         <p style="font-size: 1.2rem; line-height: 1.2">
           {{ skillsPool[skillSelectedPool][skillSelectedId].desc }}
         </p>

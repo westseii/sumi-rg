@@ -10,8 +10,8 @@ export const usePlayerCharacterStore = defineStore({
     race: "Shade",
     gender: "Male",
     level: 50,
-    availableExp: 25_000,
-    totalExp: 25_000,
+    availableExp: 1_000_000,
+    totalExp: 1_000_000,
     vitality: {
       health: 410,
       stamina: 410,
