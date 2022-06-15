@@ -31,7 +31,6 @@ export const usePlayerCharacterStore = defineStore({
       cunning: 750,
       instinct: 750,
     },
-    skillStage: [],
     inventory: usePlayerInventoryStore(),
     notoriety: usePlayerNotorietyStore(),
     quote: `The hasty rushing to and fro to fight, pry, claim, and steal.

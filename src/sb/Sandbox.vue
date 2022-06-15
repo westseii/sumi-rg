@@ -1,40 +1,47 @@
 <script setup>
-  import { computed } from "vue";
+  import { computed, ref } from "vue";
 
   import SkillTab from "@/components/SkillTab.vue";
 
-  import { skills, playerSkills, skillsSpecial, playerSkillsSpecial } from "@/sb/skillsStore.js";
+  import { skillsPool, playerSkillsPool } from "@/sb/skillsStore.js";
   import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
 
   const player = usePlayerCharacterStore();
 
   // computed vars
-  const special = computed(() => skillsSpecial.value.sort((a, b) => a.name > b.name));
+  const special = computed(() => skillsPool.value[1].sort((a, b) => a.name > b.name));
   const prodigal = computed(() =>
-    skills.value
-      .filter((skill) => playerSkills.value[skill.id].rank === 4)
+    skillsPool.value[0]
+      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 4)
       .sort((a, b) => a.name > b.name),
   );
   const specialized = computed(() =>
-    skills.value
-      .filter((skill) => playerSkills.value[skill.id].rank === 3)
+    skillsPool.value[0]
+      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 3)
       .sort((a, b) => a.name > b.name),
   );
   const trained = computed(() =>
-    skills.value
-      .filter((skill) => playerSkills.value[skill.id].rank === 2)
+    skillsPool.value[0]
+      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 2)
       .sort((a, b) => a.name > b.name),
   );
   const untrained = computed(() =>
-    skills.value
-      .filter((skill) => playerSkills.value[skill.id].rank === 1)
+    skillsPool.value[0]
+      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 1)
       .sort((a, b) => a.name > b.name),
   );
   const unusable = computed(() =>
-    skills.value
-      .filter((skill) => playerSkills.value[skill.id].rank === 0)
+    skillsPool.value[0]
+      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 0)
       .sort((a, b) => a.name > b.name),
   );
+
+  const skillSelectedPool = ref(null);
+  const skillSelectedId = ref(null);
+  const skillSelected = (payload) => {
+    skillSelectedPool.value = payload.pool;
+    skillSelectedId.value = payload.id;
+  };
 </script>
 
 <template>
@@ -43,7 +50,7 @@
   </h1>
   <div class="example">
     <hr class="rule" />
-    <div style="height: 576px; overflow: scroll; scrollbar-width: none; width: 340px">
+    <div style="height: 504px; overflow: scroll; scrollbar-width: none; width: 340px">
       <div class="pane rank" v-show="special.length">
         <div class="v-rule-sm" />
         <h2>
@@ -51,12 +58,14 @@
         </h2>
       </div>
       <skill-tab
+        @skill-selected="skillSelected"
         v-for="s in special"
         :key="s.id"
-        :skill="s.name"
-        :rank="10"
-        :value="playerSkillsSpecial[s.id].val"
-        :cantrip="playerSkillsSpecial[s.id].cantrip"
+        :skill="{ id: s.id, pool: s.pool, name: s.name }"
+        :rank="5"
+        :value="playerSkillsPool[1][s.id].val"
+        :cantrip="playerSkillsPool[1][s.id].cantrip"
+        :group="'allskills'"
       />
 
       <div class="pane rank" v-show="prodigal.length">
@@ -64,12 +73,14 @@
         <h2>Prodigy</h2>
       </div>
       <skill-tab
+        @skill-selected="skillSelected"
         v-for="s in prodigal"
         :key="s.id"
-        :skill="s.name"
+        :skill="{ id: s.id, pool: s.pool, name: s.name }"
         :rank="4"
-        :value="playerSkills[s.id].val"
-        :cantrip="playerSkills[s.id].cantrip"
+        :value="playerSkillsPool[0][s.id].val"
+        :cantrip="playerSkillsPool[0][s.id].cantrip"
+        :group="'allskills'"
       />
 
       <div class="pane rank" v-show="specialized.length">
@@ -77,12 +88,14 @@
         <h2>Specialized</h2>
       </div>
       <skill-tab
+        @skill-selected="skillSelected"
         v-for="s in specialized"
         :key="s.id"
-        :skill="s.name"
+        :skill="{ id: s.id, pool: s.pool, name: s.name }"
         :rank="3"
-        :value="playerSkills[s.id].val"
-        :cantrip="playerSkills[s.id].cantrip"
+        :value="playerSkillsPool[0][s.id].val"
+        :cantrip="playerSkillsPool[0][s.id].cantrip"
+        :group="'allskills'"
       />
 
       <div class="pane rank" v-show="trained.length">
@@ -90,12 +103,14 @@
         <h2>Trained</h2>
       </div>
       <skill-tab
+        @skill-selected="skillSelected"
         v-for="s in trained"
         :key="s.id"
-        :skill="s.name"
+        :skill="{ id: s.id, pool: s.pool, name: s.name }"
         :rank="2"
-        :value="playerSkills[s.id].val"
-        :cantrip="playerSkills[s.id].cantrip"
+        :value="playerSkillsPool[0][s.id].val"
+        :cantrip="playerSkillsPool[0][s.id].cantrip"
+        :group="'allskills'"
       />
 
       <div class="pane rank" v-show="untrained.length">
@@ -103,12 +118,14 @@
         <h2>Untrained</h2>
       </div>
       <skill-tab
+        @skill-selected="skillSelected"
         v-for="s in untrained"
         :key="s.id"
-        :skill="s.name"
+        :skill="{ id: s.id, pool: s.pool, name: s.name }"
         :rank="1"
-        :value="playerSkills[s.id].val"
-        :cantrip="playerSkills[s.id].cantrip"
+        :value="playerSkillsPool[0][s.id].val"
+        :cantrip="playerSkillsPool[0][s.id].cantrip"
+        :group="'allskills'"
       />
 
       <div class="pane rank" v-show="unusable.length">
@@ -116,31 +133,39 @@
         <h2>Unusable</h2>
       </div>
       <skill-tab
+        @skill-selected="skillSelected"
         v-for="s in unusable"
         :key="s.id"
-        :skill="s.name"
+        :skill="{ id: s.id, pool: s.pool, name: s.name }"
         :rank="0"
-        :value="playerSkills[s.id].val"
-        :cantrip="playerSkills[s.id].cantrip"
+        :value="playerSkillsPool[0][s.id].val"
+        :cantrip="playerSkillsPool[0][s.id].cantrip"
+        :group="'allskills'"
       />
     </div>
   </div>
 
-  <div style="overflow: scroll; scrollbar-width: none; width: 340px">
-    <div class="pane">
-      <div style="display: flex">
-        <h2>skillName</h2>
-        <h2 style="margin-left: auto">[ATT1 + ATT2] / 4</h2>
+  <!-- Todo: put into its own component; eliminate inline styles -->
+  <div class="pane" style="width: 340px">
+    <div v-if="skillSelectedId != null">
+      <div style="align-items: center; display: flex; height: 28px">
+        <h2>{{ skillsPool[skillSelectedPool][skillSelectedId].name }}</h2>
+        <h2 style="margin-left: auto">{{ skillsPool[skillSelectedPool][skillSelectedId].fx }}</h2>
+      </div>
+      <div style="max-height: 100px; overflow: scroll; scrollbar-width: none">
+        <p style="font-size: 1.2rem; line-height: 1.2">
+          {{ skillsPool[skillSelectedPool][skillSelectedId].desc }}
+        </p>
       </div>
       <hr class="rule-sm" />
-      <div style="display: flex">
-        <p>Unassigned EXP:</p>
-        <p style="margin-left: auto">{{ player.availableExpLocale }}</p>
-      </div>
-      <div style="display: flex">
-        <p>Cost:</p>
-        <p style="margin-left: auto">{{ NaN }}</p>
-      </div>
+    </div>
+    <div style="display: flex">
+      <p>Unassigned EXP:</p>
+      <p style="margin-left: auto">{{ player.availableExpLocale }}</p>
+    </div>
+    <div style="display: flex">
+      <p>Cost:</p>
+      <p style="color: brown; margin-left: auto">{{ Infinity }}</p>
     </div>
   </div>
 </template>
@@ -151,7 +176,7 @@
   @import "@/assets/base.css";
 
   body {
-    padding: 24px 0 0 24px;
+    padding: 12px;
   }
 </style>
 
@@ -165,7 +190,7 @@
   h6 {
     color: rgba(96, 128, 159, 0.85);
     font-weight: normal;
-    margin: 6px 0;
+    margin: 0;
   }
 
   h1 {
@@ -217,7 +242,7 @@
     border: none;
     box-shadow: none;
     display: flex;
-    height: 32px;
+    height: 28px;
     padding: 0;
     user-select: none;
   }
@@ -240,9 +265,9 @@
     background-size: cover;
     border-radius: 6px;
     box-shadow: inset -6px -6px 12px 0 rgba(96, 128, 159, 0.33);
-    height: 28px;
-    margin-left: -4.5px;
+    height: 24px;
+    margin-left: -4px;
     margin-right: 6px;
-    width: 28px;
+    width: 24px;
   }
 </style>
