@@ -8,7 +8,7 @@
 
   const player = usePlayerCharacterStore();
 
-  // computed vars
+  // computed values
   const special = computed(() => skillsPool.value[1].sort((a, b) => a.name > b.name));
   const prodigal = computed(() =>
     skillsPool.value[0]
@@ -36,11 +36,12 @@
       .sort((a, b) => a.name > b.name),
   );
 
-  const skillSelectedPool = ref(null);
-  const skillSelectedId = ref(null);
+  // events
+  const pool = ref(null);
+  const skillId = ref(null);
   const skillSelected = (payload) => {
-    skillSelectedPool.value = payload.pool;
-    skillSelectedId.value = payload.id;
+    pool.value = payload.pool;
+    skillId.value = payload.id;
   };
 </script>
 
@@ -48,113 +49,99 @@
   <h1>
     <span v-show="player.name">{{ player.name }}'s&nbsp;</span>Skills
   </h1>
-  <div class="example">
+
+  <div style="height: calc(504px + 16px); overflow: scroll; scrollbar-width: none; width: 352px">
     <hr class="rule" />
-    <div style="height: 504px; overflow: scroll; scrollbar-width: none; width: 340px">
-      <div class="pane rank" v-show="special.length">
-        <div class="v-rule-sm" />
-        <h2>
-          Innate / Racial<span v-show="player.race">&nbsp;({{ player.race }})</span>
-        </h2>
-      </div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in special"
-        :key="s.id"
-        :skill="{ id: s.id, pool: s.pool, name: s.name }"
-        :rank="5"
-        :value="playerSkillsPool[1][s.id].val"
-        :cantrip="playerSkillsPool[1][s.id].cantrip"
-        :group="'allskills'"
-      />
-
-      <div class="pane rank" v-show="prodigal.length">
-        <div class="v-rule-sm" />
-        <h2>Prodigy</h2>
-      </div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in prodigal"
-        :key="s.id"
-        :skill="{ id: s.id, pool: s.pool, name: s.name }"
-        :rank="4"
-        :value="playerSkillsPool[0][s.id].val"
-        :cantrip="playerSkillsPool[0][s.id].cantrip"
-        :group="'allskills'"
-      />
-
-      <div class="pane rank" v-show="specialized.length">
-        <div class="v-rule-sm" />
-        <h2>Specialized</h2>
-      </div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in specialized"
-        :key="s.id"
-        :skill="{ id: s.id, pool: s.pool, name: s.name }"
-        :rank="3"
-        :value="playerSkillsPool[0][s.id].val"
-        :cantrip="playerSkillsPool[0][s.id].cantrip"
-        :group="'allskills'"
-      />
-
-      <div class="pane rank" v-show="trained.length">
-        <div class="v-rule-sm" />
-        <h2>Trained</h2>
-      </div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in trained"
-        :key="s.id"
-        :skill="{ id: s.id, pool: s.pool, name: s.name }"
-        :rank="2"
-        :value="playerSkillsPool[0][s.id].val"
-        :cantrip="playerSkillsPool[0][s.id].cantrip"
-        :group="'allskills'"
-      />
-
-      <div class="pane rank" v-show="untrained.length">
-        <div class="v-rule-sm" />
-        <h2>Untrained</h2>
-      </div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in untrained"
-        :key="s.id"
-        :skill="{ id: s.id, pool: s.pool, name: s.name }"
-        :rank="1"
-        :value="playerSkillsPool[0][s.id].val"
-        :cantrip="playerSkillsPool[0][s.id].cantrip"
-        :group="'allskills'"
-      />
-
-      <div class="pane rank" v-show="unusable.length">
-        <div class="v-rule-sm" />
-        <h2>Unusable</h2>
-      </div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in unusable"
-        :key="s.id"
-        :skill="{ id: s.id, pool: s.pool, name: s.name }"
-        :rank="0"
-        :value="playerSkillsPool[0][s.id].val"
-        :cantrip="playerSkillsPool[0][s.id].cantrip"
-        :group="'allskills'"
-      />
+    <div class="pane rank" v-show="special.length">
+      <div class="v-rule-sm" />
+      <h2>
+        Innate / Racial<span v-show="player.race">&nbsp;({{ player.race }})</span>
+      </h2>
     </div>
+    <skill-tab
+      @skill-selected="skillSelected"
+      v-for="s in special"
+      :key="s.id"
+      :skill="{ pool: s.pool, id: s.id }"
+      :group="'skill-selected'"
+    />
+
+    <div class="pane rank" v-show="prodigal.length">
+      <div class="v-rule-sm" />
+      <h2>Prodigy</h2>
+    </div>
+    <skill-tab
+      @skill-selected="skillSelected"
+      v-for="s in prodigal"
+      :key="s.id"
+      :skill="{ pool: s.pool, id: s.id }"
+      :group="'skill-selected'"
+    />
+
+    <div class="pane rank" v-show="specialized.length">
+      <div class="v-rule-sm" />
+      <h2>Specialized</h2>
+    </div>
+    <skill-tab
+      @skill-selected="skillSelected"
+      v-for="s in specialized"
+      :key="s.id"
+      :skill="{ pool: s.pool, id: s.id }"
+      :group="'skill-selected'"
+    />
+
+    <div class="pane rank" v-show="trained.length">
+      <div class="v-rule-sm" />
+      <h2>Trained</h2>
+    </div>
+    <skill-tab
+      @skill-selected="skillSelected"
+      v-for="s in trained"
+      :key="s.id"
+      :skill="{ pool: s.pool, id: s.id }"
+      :group="'skill-selected'"
+    />
+
+    <div class="pane rank" v-show="untrained.length">
+      <div class="v-rule-sm" />
+      <h2>Untrained</h2>
+    </div>
+    <skill-tab
+      @skill-selected="skillSelected"
+      v-for="s in untrained"
+      :key="s.id"
+      :skill="{ pool: s.pool, id: s.id }"
+      :group="'skill-selected'"
+    />
+
+    <div class="pane rank" v-show="unusable.length">
+      <div class="v-rule-sm" />
+      <h2>Unusable</h2>
+    </div>
+    <skill-tab
+      @skill-selected="skillSelected"
+      v-for="s in unusable"
+      :key="s.id"
+      :skill="{ pool: s.pool, id: s.id }"
+      :group="'skill-selected'"
+    />
   </div>
 
   <!-- Todo: put into its own component; eliminate inline styles -->
-  <div class="pane" style="width: 340px">
-    <div v-if="skillSelectedId != null">
+  <div class="pane" style="border-radius: 8px; margin-top: 6px; width: 352px">
+    <div v-if="skillId != null">
       <div style="align-items: center; display: flex; height: 28px">
-        <h2>{{ skillsPool[skillSelectedPool][skillSelectedId].name }}</h2>
-        <h2 style="margin-left: auto">{{ skillsPool[skillSelectedPool][skillSelectedId].fx }}</h2>
+        <h2>{{ skillsPool[pool][skillId].name }}</h2>
+        <!-- has fx -->
+        <h2 v-if="skillsPool[pool][skillId].fx" style="margin-left: auto">
+          {{ skillsPool[pool][skillId].fx }}
+        </h2>
+        <!-- racial only -->
+        <h2 v-if="!skillsPool[pool][skillId].fx" style="margin-left: auto">Racial</h2>
       </div>
       <div style="max-height: 84px; overflow: scroll; scrollbar-width: none">
         <p style="font-size: 1.2rem; line-height: 1.2">
-          {{ skillsPool[skillSelectedPool][skillSelectedId].desc }}
+          {{ skillsPool[pool][skillId].desc }}
         </p>
       </div>
       <hr class="rule-sm" />
@@ -208,7 +195,20 @@
     font-size: 1.4rem;
   }
 
-  .example {
+  .pane {
+    background: linear-gradient(
+      22.5deg,
+      rgba(96, 128, 159, 0.165) 5%,
+      rgba(48, 64, 80, 0.1),
+      rgba(128, 159, 191, 0.05) 95%
+    );
+    border-bottom: solid 0.5px rgba(24, 32, 40, 0.33);
+    border-top: solid 0.5px rgba(48, 64, 80, 0.5);
+    box-shadow: inset 4px 4px 8px 0 rgba(96, 128, 159, 0.1);
+    padding: 5.5px 6px;
+  }
+
+  .bg-gradient1 {
     background: linear-gradient(185deg, transparent, rgb(12, 18, 24), rgb(36, 18, 12));
     max-width: fit-content;
   }
@@ -221,19 +221,6 @@
       rgba(128, 159, 191, 0.05) 95%
     );
     box-shadow: inset 6px 6px 24px 0 rgba(96, 128, 159, 0.165);
-  }
-
-  .pane {
-    background: linear-gradient(
-      22.5deg,
-      rgba(96, 128, 159, 0.165) 5%,
-      rgba(48, 64, 80, 0.1),
-      rgba(128, 159, 191, 0.05) 95%
-    );
-    border-bottom: solid 0.5px rgba(24, 32, 40, 0.33);
-    border-top: solid 0.5px rgba(48, 64, 80, 0.5);
-    box-shadow: inset 4px 4px 8px 0 rgba(96, 128, 159, 0.1);
-    padding: 5.5px 6px;
   }
 
   .rank {

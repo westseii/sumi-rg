@@ -1,33 +1,41 @@
 <script setup>
   import { computed } from "vue";
 
+  import { skillsPool, playerSkillsPool } from "@/sb/skillsStore.js";
+  // import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
+
+  // const player = usePlayerCharacterStore();
+
   const props = defineProps({
     skill: Object,
     icon: { type: String, default: "ico-def" },
-    rank: Number,
-    value: Number,
-    cantrip: Number,
     group: String,
   });
 
-  const skillLabel = computed(() => `${props.skill.pool}${props.skill.id}`);
-  const skillColor = computed(() => {
-    switch (props.rank) {
-      case 0:
-        return "clr-unusable";
-      case 1:
-        return "clr-untrained";
-      case 2:
-        return "clr-trained";
-      case 3:
-        return "clr-specialized";
-      case 4:
-        return "clr-prodigy";
-      case 5:
-        return "clr-special";
-    }
+  // computed values
+  const val = computed(() => playerSkillsPool.value[props.skill.pool][props.skill.id].val);
+  const cantrip = computed(() => playerSkillsPool.value[props.skill.pool][props.skill.id].cantrip);
+  const label = computed(() => `${props.skill.pool}${props.skill.id}`);
+  const textColor = computed(() => {
+    if (props.skill.pool === 0) {
+      // pool 0 is for all of the universal non-racial skills
+      switch (playerSkillsPool.value[props.skill.pool][props.skill.id].rank) {
+        case 0:
+          return "clr-unusable";
+        case 1:
+          return "clr-untrained";
+        case 2:
+          return "clr-trained";
+        case 3:
+          return "clr-specialized";
+        case 4:
+          return "clr-prodigy";
+      }
+    } else return "clr-special"; // for racial skills
   });
-  const unusableColor = computed(() => (props.rank === 0 ? "clr-unusable" : ""));
+  const textColorUnused = computed(
+    () => playerSkillsPool.value[props.skill.pool][props.skill.id].rank === 0,
+  );
 </script>
 
 <template>
@@ -36,16 +44,15 @@
       class="radio"
       type="radio"
       :name="group"
-      :id="skillLabel"
-      :value="skill.id"
-      @click="$emit('skillSelected', { id: skill.id, pool: skill.pool })"
+      :id="label"
+      @click="$emit('skillSelected', { pool: skill.pool, id: skill.id })"
     />
-    <label class="pane-row radio-label" :for="skillLabel">
+    <label class="pane-row radio-label" :for="label">
       <div :class="icon" />
-      <p :class="skillColor">{{ skill.name }}</p>
+      <p :class="textColor">{{ skillsPool[skill.pool][skill.id].name }}</p>
       <span class="can-val-align">
         <span class="cantrip" v-show="cantrip">(+{{ cantrip }})&nbsp;</span>
-        <p class="value" :class="unusableColor">{{ value + cantrip }}</p>
+        <p class="value" :class="textColorUnused && 'clr-unusable'">{{ val + cantrip }}</p>
       </span>
     </label>
   </div>
@@ -61,12 +68,13 @@
       rgba(128, 159, 191, 0.05) 95%
     );
     border-bottom: solid 0.5px rgba(24, 32, 40, 0.33);
+    border-radius: 8px;
     border-top: solid 0.5px rgba(48, 64, 80, 0.5);
     box-shadow: inset 4px 4px 8px 0 rgba(96, 128, 159, 0.1);
     display: flex;
     height: 28px;
     padding: 0 6px;
-    transition: 0.05s ease;
+    transition: 0.1s ease;
     user-select: none;
   }
 
@@ -79,8 +87,8 @@
   }
 
   .radio:checked ~ .radio-label {
+    box-shadow: inset 4px 4px 8px 0 rgba(96, 128, 159, 0.15);
     filter: brightness(1.75) sepia(1);
-    font-weight: bold;
   }
 
   .clr-special {
