@@ -39,7 +39,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="skill-tab">
     <input
       class="radio"
       type="radio"
@@ -47,19 +47,19 @@
       :id="label"
       @click="$emit('skillSelected', { pool: skill.pool, id: skill.id })"
     />
-    <label class="pane-row radio-label" :for="label">
-      <div :class="icon" />
-      <p :class="textColor">{{ skillsPool[skill.pool][skill.id].name }}</p>
-      <span class="can-val-align">
-        <span class="cantrip" v-show="cantrip">(+{{ cantrip }})&nbsp;</span>
-        <p class="value" :class="textColorUnused && 'clr-unusable'">{{ val + cantrip }}</p>
-      </span>
+    <label class="skill-tab_row radio-label" :for="label">
+      <span :class="icon" />
+      <span :class="textColor">{{ skillsPool[skill.pool][skill.id].name }}</span>
+      <div style="margin-left: auto">
+        <span class="clr-cantrip" v-show="cantrip">(+{{ cantrip }})&nbsp;</span>
+        <span :class="textColorUnused && 'clr-unusable'">{{ val + cantrip }}</span>
+      </div>
     </label>
   </div>
 </template>
 
 <style scoped>
-  .pane-row {
+  .skill-tab_row {
     align-items: center;
     background: linear-gradient(
       22.5deg,
@@ -68,7 +68,6 @@
       rgba(128, 159, 191, 0.05) 95%
     );
     border-bottom: solid 0.5px rgba(24, 32, 40, 0.33);
-    border-radius: 8px;
     border-top: solid 0.5px rgba(48, 64, 80, 0.5);
     box-shadow: inset 4px 4px 8px 0 rgba(96, 128, 159, 0.1);
     display: flex;
@@ -78,7 +77,7 @@
     user-select: none;
   }
 
-  .pane-row:hover {
+  .skill-tab_row:hover {
     filter: brightness(1.5);
   }
 
@@ -115,15 +114,7 @@
     color: rgb(128, 80, 80);
   }
 
-  .cantrip {
+  .clr-cantrip {
     color: rgb(80, 159, 191);
-  }
-
-  .value {
-    display: inline;
-  }
-
-  .can-val-align {
-    margin-left: auto;
   }
 </style>

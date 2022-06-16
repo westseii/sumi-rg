@@ -50,109 +50,133 @@
     <span v-show="player.name">{{ player.name }}'s&nbsp;</span>Skills
   </h1>
 
-  <div style="height: calc(504px + 16px); overflow: scroll; scrollbar-width: none; width: 352px">
-    <hr class="rule" />
+  <hr class="rule" style="width: 320px" />
+
+  <div style="height: 504px; overflow: scroll; scrollbar-width: none; width: 320px">
     <div class="pane rank" v-show="special.length">
       <div class="v-rule-sm" />
       <h2>
         Innate / Racial<span v-show="player.race">&nbsp;({{ player.race }})</span>
       </h2>
     </div>
-    <skill-tab
-      @skill-selected="skillSelected"
-      v-for="s in special"
-      :key="s.id"
-      :skill="{ pool: s.pool, id: s.id }"
-      :group="'skill-selected'"
-    />
+
+    <div>
+      <skill-tab
+        @skill-selected="skillSelected"
+        v-for="s in special"
+        :key="s.id"
+        :skill="{ pool: s.pool, id: s.id }"
+        :group="'skill-selected'"
+      />
+    </div>
 
     <div class="pane rank" v-show="prodigal.length">
       <div class="v-rule-sm" />
       <h2>Prodigy</h2>
     </div>
-    <skill-tab
-      @skill-selected="skillSelected"
-      v-for="s in prodigal"
-      :key="s.id"
-      :skill="{ pool: s.pool, id: s.id }"
-      :group="'skill-selected'"
-    />
+
+    <div>
+      <skill-tab
+        @skill-selected="skillSelected"
+        v-for="s in prodigal"
+        :key="s.id"
+        :skill="{ pool: s.pool, id: s.id }"
+        :group="'skill-selected'"
+      />
+    </div>
 
     <div class="pane rank" v-show="specialized.length">
       <div class="v-rule-sm" />
       <h2>Specialized</h2>
     </div>
-    <skill-tab
-      @skill-selected="skillSelected"
-      v-for="s in specialized"
-      :key="s.id"
-      :skill="{ pool: s.pool, id: s.id }"
-      :group="'skill-selected'"
-    />
+
+    <div>
+      <skill-tab
+        @skill-selected="skillSelected"
+        v-for="s in specialized"
+        :key="s.id"
+        :skill="{ pool: s.pool, id: s.id }"
+        :group="'skill-selected'"
+      />
+    </div>
 
     <div class="pane rank" v-show="trained.length">
       <div class="v-rule-sm" />
       <h2>Trained</h2>
     </div>
-    <skill-tab
-      @skill-selected="skillSelected"
-      v-for="s in trained"
-      :key="s.id"
-      :skill="{ pool: s.pool, id: s.id }"
-      :group="'skill-selected'"
-    />
+
+    <div>
+      <skill-tab
+        @skill-selected="skillSelected"
+        v-for="s in trained"
+        :key="s.id"
+        :skill="{ pool: s.pool, id: s.id }"
+        :group="'skill-selected'"
+      />
+    </div>
 
     <div class="pane rank" v-show="untrained.length">
       <div class="v-rule-sm" />
       <h2>Untrained</h2>
     </div>
-    <skill-tab
-      @skill-selected="skillSelected"
-      v-for="s in untrained"
-      :key="s.id"
-      :skill="{ pool: s.pool, id: s.id }"
-      :group="'skill-selected'"
-    />
+
+    <div>
+      <skill-tab
+        @skill-selected="skillSelected"
+        v-for="s in untrained"
+        :key="s.id"
+        :skill="{ pool: s.pool, id: s.id }"
+        :group="'skill-selected'"
+      />
+    </div>
 
     <div class="pane rank" v-show="unusable.length">
       <div class="v-rule-sm" />
       <h2>Unusable</h2>
     </div>
-    <skill-tab
-      @skill-selected="skillSelected"
-      v-for="s in unusable"
-      :key="s.id"
-      :skill="{ pool: s.pool, id: s.id }"
-      :group="'skill-selected'"
-    />
+
+    <div>
+      <skill-tab
+        @skill-selected="skillSelected"
+        v-for="s in unusable"
+        :key="s.id"
+        :skill="{ pool: s.pool, id: s.id }"
+        :group="'skill-selected'"
+      />
+    </div>
   </div>
 
   <!-- Todo: put into its own component; eliminate inline styles -->
-  <div class="pane" style="border-radius: 8px; margin-top: 6px; width: 352px">
+  <div class="pane" style="border-radius: 8px; margin-top: 6px; width: 320px">
     <div v-if="skillId != null">
       <div style="align-items: center; display: flex; height: 28px">
         <h2>{{ skillsPool[pool][skillId].name }}</h2>
         <!-- has fx -->
-        <h2 v-if="skillsPool[pool][skillId].fx" style="margin-left: auto">
+        <h2 v-if="skillsPool[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
           {{ skillsPool[pool][skillId].fx }}
         </h2>
         <!-- racial only -->
-        <h2 v-if="!skillsPool[pool][skillId].fx" style="margin-left: auto">Racial</h2>
+        <h2 v-if="!skillsPool[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
+          Racial
+        </h2>
       </div>
       <div style="max-height: 84px; overflow: scroll; scrollbar-width: none">
-        <p style="font-size: 1.2rem; line-height: 1.2">
-          {{ skillsPool[pool][skillId].desc }}
-        </p>
+        <p style="font-size: 1.2rem; line-height: 1.2">{{ skillsPool[pool][skillId].desc }}</p>
       </div>
       <hr class="rule-sm" />
     </div>
     <div style="display: flex">
-      <p>Unassigned EXP:</p>
-      <p style="margin-left: auto">{{ player.availableExpLocale }}</p>
+      <span>Skill points:</span>
+      <span style="margin-left: auto">{{ 1 }}</span>
+    </div>
+    <hr class="rule-sm" />
+    <div style="display: flex">
+      <span>Unassigned EXP:</span>
+      <span style="margin-left: auto">{{ player.availableExpLocale }}</span>
     </div>
     <div style="display: flex">
-      <p>Cost:</p>
-      <p style="color: brown; margin-left: auto">{{ Infinity }}</p>
+      <span>Cost:</span>
+      <span style="color: brown; margin-left: auto">{{ Infinity }}</span>
     </div>
   </div>
 </template>
@@ -163,7 +187,7 @@
   @import "@/assets/base.css";
 
   body {
-    padding: 12px;
+    padding: 40px;
   }
 </style>
 
@@ -193,6 +217,28 @@
   h5,
   h6 {
     font-size: 1.4rem;
+  }
+
+  span.ico-def {
+    background-image: url("../assets/ico/magic-swirl.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 6px;
+    box-shadow: inset -6px -6px 12px 0 rgba(96, 128, 159, 0.33);
+    height: 24px;
+    margin-left: -4px;
+    margin-right: 6px;
+    width: 24px;
+  }
+
+  .skill-tab:first-child > .skill-tab_row {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .skill-tab:last-child > .skill-tab_row {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 
   .pane {
@@ -243,18 +289,6 @@
     line-height: 0;
     padding: 12px 0;
     text-align: center;
-    width: 24px;
-  }
-
-  .ico-def {
-    background-image: url("../assets/ico/magic-swirl.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 6px;
-    box-shadow: inset -6px -6px 12px 0 rgba(96, 128, 159, 0.33);
-    height: 24px;
-    margin-left: -4px;
-    margin-right: 6px;
     width: 24px;
   }
 </style>
