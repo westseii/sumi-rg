@@ -1,7 +1,8 @@
 <script setup>
-  import { computed, ref } from "vue";
+  import { computed, ref, Suspense } from "vue";
 
   import SkillTab from "@/components/SkillTab.vue";
+  import CommitsTab from "@/components/CommitsTab.vue";
 
   import { skillsPool, playerSkillsPool } from "@/sb/skillsStore.js";
   import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
@@ -46,138 +47,146 @@
 </script>
 
 <template>
-  <h1>
-    <span v-show="player.name">{{ player.name }}'s&nbsp;</span>Skills
-  </h1>
-
-  <hr class="rule" style="width: 320px" />
-
-  <div style="height: 504px; overflow: scroll; scrollbar-width: none; width: 320px">
-    <div class="pane rank" v-show="special.length">
-      <div class="v-rule-sm" />
-      <h2>
-        Innate / Racial<span v-show="player.race">&nbsp;({{ player.race }})</span>
-      </h2>
-    </div>
-
+  <div style="display: flex">
     <div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in special"
-        :key="s.id"
-        :skill="{ pool: s.pool, id: s.id }"
-        :group="'skill-selected'"
-      />
-    </div>
+      <h1>
+        <span v-show="player.name">{{ player.name }}'s&nbsp;</span>Skills
+      </h1>
 
-    <div class="pane rank" v-show="prodigal.length">
-      <div class="v-rule-sm" />
-      <h2>Prodigy</h2>
-    </div>
+      <hr class="rule" style="width: 320px" />
 
-    <div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in prodigal"
-        :key="s.id"
-        :skill="{ pool: s.pool, id: s.id }"
-        :group="'skill-selected'"
-      />
-    </div>
+      <div style="height: 504px; overflow: scroll; scrollbar-width: none; width: 320px">
+        <div class="pane rank" v-show="special.length">
+          <div class="v-rule-sm" />
+          <h2>
+            Innate / Racial<span v-show="player.race">&nbsp;({{ player.race }})</span>
+          </h2>
+        </div>
 
-    <div class="pane rank" v-show="specialized.length">
-      <div class="v-rule-sm" />
-      <h2>Specialized</h2>
-    </div>
+        <div>
+          <skill-tab
+            @skill-selected="skillSelected"
+            v-for="s in special"
+            :key="s.id"
+            :skill="{ pool: s.pool, id: s.id }"
+            :group="'skill-selected'"
+          />
+        </div>
 
-    <div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in specialized"
-        :key="s.id"
-        :skill="{ pool: s.pool, id: s.id }"
-        :group="'skill-selected'"
-      />
-    </div>
+        <div class="pane rank" v-show="prodigal.length">
+          <div class="v-rule-sm" />
+          <h2>Prodigy</h2>
+        </div>
 
-    <div class="pane rank" v-show="trained.length">
-      <div class="v-rule-sm" />
-      <h2>Trained</h2>
-    </div>
+        <div>
+          <skill-tab
+            @skill-selected="skillSelected"
+            v-for="s in prodigal"
+            :key="s.id"
+            :skill="{ pool: s.pool, id: s.id }"
+            :group="'skill-selected'"
+          />
+        </div>
 
-    <div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in trained"
-        :key="s.id"
-        :skill="{ pool: s.pool, id: s.id }"
-        :group="'skill-selected'"
-      />
-    </div>
+        <div class="pane rank" v-show="specialized.length">
+          <div class="v-rule-sm" />
+          <h2>Specialized</h2>
+        </div>
 
-    <div class="pane rank" v-show="untrained.length">
-      <div class="v-rule-sm" />
-      <h2>Untrained</h2>
-    </div>
+        <div>
+          <skill-tab
+            @skill-selected="skillSelected"
+            v-for="s in specialized"
+            :key="s.id"
+            :skill="{ pool: s.pool, id: s.id }"
+            :group="'skill-selected'"
+          />
+        </div>
 
-    <div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in untrained"
-        :key="s.id"
-        :skill="{ pool: s.pool, id: s.id }"
-        :group="'skill-selected'"
-      />
-    </div>
+        <div class="pane rank" v-show="trained.length">
+          <div class="v-rule-sm" />
+          <h2>Trained</h2>
+        </div>
 
-    <div class="pane rank" v-show="unusable.length">
-      <div class="v-rule-sm" />
-      <h2>Unusable</h2>
-    </div>
+        <div>
+          <skill-tab
+            @skill-selected="skillSelected"
+            v-for="s in trained"
+            :key="s.id"
+            :skill="{ pool: s.pool, id: s.id }"
+            :group="'skill-selected'"
+          />
+        </div>
 
-    <div>
-      <skill-tab
-        @skill-selected="skillSelected"
-        v-for="s in unusable"
-        :key="s.id"
-        :skill="{ pool: s.pool, id: s.id }"
-        :group="'skill-selected'"
-      />
-    </div>
-  </div>
+        <div class="pane rank" v-show="untrained.length">
+          <div class="v-rule-sm" />
+          <h2>Untrained</h2>
+        </div>
 
-  <!-- Todo: put into its own component; eliminate inline styles -->
-  <div class="pane" style="border-radius: 8px; margin-top: 6px; width: 320px">
-    <div v-if="skillId != null">
-      <div style="align-items: center; display: flex; height: 28px">
-        <h2>{{ skillsPool[pool][skillId].name }}</h2>
-        <!-- has fx -->
-        <h2 v-if="skillsPool[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
-          {{ skillsPool[pool][skillId].fx }}
-        </h2>
-        <!-- racial only -->
-        <h2 v-if="!skillsPool[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
-          Racial
-        </h2>
+        <div>
+          <skill-tab
+            @skill-selected="skillSelected"
+            v-for="s in untrained"
+            :key="s.id"
+            :skill="{ pool: s.pool, id: s.id }"
+            :group="'skill-selected'"
+          />
+        </div>
+
+        <div class="pane rank" v-show="unusable.length">
+          <div class="v-rule-sm" />
+          <h2>Unusable</h2>
+        </div>
+
+        <div>
+          <skill-tab
+            @skill-selected="skillSelected"
+            v-for="s in unusable"
+            :key="s.id"
+            :skill="{ pool: s.pool, id: s.id }"
+            :group="'skill-selected'"
+          />
+        </div>
       </div>
-      <div style="max-height: 84px; overflow: scroll; scrollbar-width: none">
-        <p style="font-size: 1.2rem; line-height: 1.2">{{ skillsPool[pool][skillId].desc }}</p>
+
+      <!-- Todo: put into its own component; eliminate inline styles -->
+      <div class="pane" style="border-radius: 8px; margin-top: 6px; width: 320px">
+        <div v-if="skillId != null">
+          <div style="align-items: center; display: flex; height: 28px">
+            <h2>{{ skillsPool[pool][skillId].name }}</h2>
+            <!-- has fx -->
+            <h2 v-if="skillsPool[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
+              {{ skillsPool[pool][skillId].fx }}
+            </h2>
+            <!-- racial only -->
+            <h2 v-if="!skillsPool[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
+              Racial
+            </h2>
+          </div>
+          <div style="max-height: 84px; overflow: scroll; scrollbar-width: none">
+            <p style="font-size: 1.2rem; line-height: 1.2">{{ skillsPool[pool][skillId].desc }}</p>
+          </div>
+          <hr class="rule-sm" />
+        </div>
+        <div style="display: flex">
+          <span>Skill points:</span>
+          <span style="margin-left: auto">{{ 1 }}</span>
+        </div>
+        <hr class="rule-sm" />
+        <div style="display: flex">
+          <span>Unassigned EXP:</span>
+          <span style="margin-left: auto">{{ player.availableExpLocale }}</span>
+        </div>
+        <div style="display: flex">
+          <span>Cost:</span>
+          <span style="color: brown; margin-left: auto">{{ Infinity }}</span>
+        </div>
       </div>
-      <hr class="rule-sm" />
     </div>
-    <div style="display: flex">
-      <span>Skill points:</span>
-      <span style="margin-left: auto">{{ 1 }}</span>
-    </div>
-    <hr class="rule-sm" />
-    <div style="display: flex">
-      <span>Unassigned EXP:</span>
-      <span style="margin-left: auto">{{ player.availableExpLocale }}</span>
-    </div>
-    <div style="display: flex">
-      <span>Cost:</span>
-      <span style="color: brown; margin-left: auto">{{ Infinity }}</span>
-    </div>
+
+    <Suspense>
+      <commits-tab style="margin-left: 40px" />
+    </Suspense>
   </div>
 </template>
 
@@ -187,7 +196,7 @@
   @import "@/assets/base.css";
 
   body {
-    padding: 40px;
+    padding: 40px 40px 0 40px;
   }
 </style>
 
