@@ -1,8 +1,9 @@
 <script setup>
-  import { computed, ref, Suspense } from "vue";
+  import { computed, ref } from "vue";
 
   import SkillTab from "@/components/SkillTab.vue";
-  import CommitsTab from "@/components/CommitsTab.vue";
+  import CommitsTab from "@/components/CommitsTab/CommitsTab.vue";
+  import CommitsTabLoading from "@/components/CommitsTab/CommitsTabLoading.vue";
 
   import { skillsPool, playerSkillsPool } from "@/sb/skillsStore.js";
   import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
@@ -185,7 +186,12 @@
     </div>
 
     <Suspense>
-      <commits-tab style="margin-left: 40px" />
+      <template #default>
+        <commits-tab />
+      </template>
+      <template #fallback>
+        <commits-tab-loading />
+      </template>
     </Suspense>
   </div>
 </template>
