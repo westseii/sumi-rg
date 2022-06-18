@@ -32,27 +32,23 @@
 </script>
 
 <template>
-  <div class="commits-tab pane" style="border-radius: 8px; margin-bottom: 40px; width: 100%">
-    <h2>Commit History ({{ REPO }})</h2>
+  <div class="commits-tab">
+    <h1>Commits ({{ REPO }})</h1>
     <hr class="rule" />
-    <div>
-      <div class="commit" v-for="commit in commitData()" :key="commit.id">
-        <h3>{{ commit.message }}</h3>
-        <div style="align-items: center; display: flex; line-height: 1.2rem">
-          <span style="font-size: 1.2rem">&nbsp;~&nbsp;{{ commit.author }}</span>
-          <span style="font-size: 1.2rem; margin-left: auto">{{ commit.date }}</span>
-        </div>
-      </div>
+    <div class="commit" v-for="commit in commitData()" :key="commit.id">
+      <div class="v-rule-sm" />
+      <h2 style="width: 50%">{{ commit.message }}</h2>
+      <span style="font-size: 1.2rem; margin-left: auto"
+        >{{ commit.date }} ~ {{ commit.author }}</span
+      >
     </div>
+    <hr class="rule-sm" />
   </div>
 </template>
 
 <style scoped>
   .commit {
-    margin-bottom: 18px;
-  }
-
-  .commit:last-child {
-    margin-bottom: 0;
+    align-items: center;
+    display: flex;
   }
 </style>

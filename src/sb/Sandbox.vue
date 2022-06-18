@@ -53,9 +53,7 @@
       <h1>
         <span v-show="player.name">{{ player.name }}'s&nbsp;</span>Skills
       </h1>
-
-      <hr class="rule" style="width: 320px" />
-
+      <hr class="rule" />
       <div style="height: 504px; overflow: scroll; scrollbar-width: none; width: 320px">
         <div class="pane rank" v-show="special.length">
           <div class="v-rule-sm" />
@@ -63,9 +61,8 @@
             Innate / Racial<span v-show="player.race">&nbsp;({{ player.race }})</span>
           </h2>
         </div>
-
         <div>
-          <skill-tab
+          <SkillTab
             @skill-selected="skillSelected"
             v-for="s in special"
             :key="s.id"
@@ -73,14 +70,12 @@
             :group="'skill-selected'"
           />
         </div>
-
         <div class="pane rank" v-show="prodigal.length">
           <div class="v-rule-sm" />
           <h2>Prodigy</h2>
         </div>
-
         <div>
-          <skill-tab
+          <SkillTab
             @skill-selected="skillSelected"
             v-for="s in prodigal"
             :key="s.id"
@@ -88,14 +83,12 @@
             :group="'skill-selected'"
           />
         </div>
-
         <div class="pane rank" v-show="specialized.length">
           <div class="v-rule-sm" />
           <h2>Specialized</h2>
         </div>
-
         <div>
-          <skill-tab
+          <SkillTab
             @skill-selected="skillSelected"
             v-for="s in specialized"
             :key="s.id"
@@ -103,14 +96,12 @@
             :group="'skill-selected'"
           />
         </div>
-
         <div class="pane rank" v-show="trained.length">
           <div class="v-rule-sm" />
           <h2>Trained</h2>
         </div>
-
         <div>
-          <skill-tab
+          <SkillTab
             @skill-selected="skillSelected"
             v-for="s in trained"
             :key="s.id"
@@ -118,14 +109,12 @@
             :group="'skill-selected'"
           />
         </div>
-
         <div class="pane rank" v-show="untrained.length">
           <div class="v-rule-sm" />
           <h2>Untrained</h2>
         </div>
-
         <div>
-          <skill-tab
+          <SkillTab
             @skill-selected="skillSelected"
             v-for="s in untrained"
             :key="s.id"
@@ -133,14 +122,12 @@
             :group="'skill-selected'"
           />
         </div>
-
         <div class="pane rank" v-show="unusable.length">
           <div class="v-rule-sm" />
           <h2>Unusable</h2>
         </div>
-
         <div>
-          <skill-tab
+          <SkillTab
             @skill-selected="skillSelected"
             v-for="s in unusable"
             :key="s.id"
@@ -149,7 +136,6 @@
           />
         </div>
       </div>
-
       <!-- Todo: put into its own component; eliminate inline styles -->
       <div class="pane" style="border-radius: 8px; margin-top: 6px; width: 320px">
         <div v-if="skillId != null">
@@ -187,10 +173,10 @@
 
     <Suspense>
       <template #default>
-        <commits-tab />
+        <CommitsTab style="margin-left: auto; width: 480px" />
       </template>
       <template #fallback>
-        <commits-tab-loading />
+        <CommitsTabLoading style="margin-left: auto; width: 480px" />
       </template>
     </Suspense>
   </div>
@@ -202,7 +188,7 @@
   @import "@/assets/base.css";
 
   body {
-    padding: 40px 40px 0 40px;
+    padding: 40px;
   }
 </style>
 
