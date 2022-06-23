@@ -1,10 +1,10 @@
 <script setup>
   import { computed } from "vue";
 
-  import { skillsPool, playerSkillsPool } from "@/sb/skillsStore.js";
-  // import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
+  import { skillsPool } from "@/skillsGeneral.js";
+  import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
 
-  // const player = usePlayerCharacterStore();
+  const player = usePlayerCharacterStore();
 
   const props = defineProps({
     skill: Object,
@@ -13,13 +13,13 @@
   });
 
   // computed values
-  const val = computed(() => playerSkillsPool.value[props.skill.pool][props.skill.id].val);
-  const cantrip = computed(() => playerSkillsPool.value[props.skill.pool][props.skill.id].cantrip);
+  const val = computed(() => player.skills.pool[props.skill.pool][props.skill.id].val);
+  const cantrip = computed(() => player.skills.pool[props.skill.pool][props.skill.id].cantrip);
   const label = computed(() => `${props.skill.pool}${props.skill.id}`);
   const textColor = computed(() => {
     if (props.skill.pool === 0) {
       // pool 0 is for all of the universal non-racial skills
-      switch (playerSkillsPool.value[props.skill.pool][props.skill.id].rank) {
+      switch (player.skills.pool[props.skill.pool][props.skill.id].rank) {
         case 0:
           return "clr-unusable";
         case 1:
@@ -34,7 +34,7 @@
     } else return "clr-special"; // for racial skills
   });
   const textColorUnused = computed(
-    () => playerSkillsPool.value[props.skill.pool][props.skill.id].rank === 0,
+    () => player.skills.pool[props.skill.pool][props.skill.id].rank === 0,
   );
 </script>
 
@@ -47,7 +47,7 @@
       :id="label"
       @click="$emit('skillSelected', { pool: skill.pool, id: skill.id })"
     />
-    <label class="skill-tab_row radio-label" :for="label">
+    <label class="skill-tab-row radio-label" :for="label">
       <span :class="icon" />
       <span :class="textColor">{{ skillsPool[skill.pool][skill.id].name }}</span>
       <div style="margin-left: auto">
@@ -59,17 +59,16 @@
 </template>
 
 <style scoped>
-  .skill-tab_row {
+  .skill-tab-row {
     align-items: center;
     background: linear-gradient(
       22.5deg,
-      rgba(96, 128, 159, 0.165) 5%,
-      rgba(48, 64, 80, 0.1),
-      rgba(128, 159, 191, 0.05) 95%
+      rgba(96, 128, 159, 0.08),
+      rgba(48, 64, 80, 0.133),
+      rgba(128, 159, 191, 0.133)
     );
-    border-bottom: solid 0.5px rgba(24, 32, 40, 0.33);
-    border-top: solid 0.5px rgba(48, 64, 80, 0.5);
-    box-shadow: inset 4px 4px 8px 0 rgba(96, 128, 159, 0.1);
+    border-bottom: solid 1px rgba(24, 32, 40, 0.33);
+    border-top: solid 1px rgba(48, 64, 80, 0.5);
     display: flex;
     height: 28px;
     padding: 0 6px;
@@ -77,8 +76,18 @@
     user-select: none;
   }
 
-  .skill-tab_row:hover {
+  .skill-tab-row:hover {
     filter: brightness(1.5);
+  }
+
+  .skill-tab:first-child > .skill-tab-row {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .skill-tab:last-child > .skill-tab-row {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 
   .radio {
@@ -86,8 +95,13 @@
   }
 
   .radio:checked ~ .radio-label {
-    box-shadow: inset 4px 4px 8px 0 rgba(96, 128, 159, 0.15);
-    filter: brightness(1.75) sepia(1);
+    box-shadow: inset 0 2px 8px 2px rgba(96, 128, 159, 0.133);
+    filter: brightness(1.75);
+  }
+
+  .radio:checked ~ .radio-label span {
+    color: #fff;
+    transition: 0.1s ease;
   }
 
   .clr-special {

@@ -24,9 +24,10 @@
     response.data.map((obj, i) => {
       return {
         id: i,
-        author: obj.commit.author.name,
+        author: obj.committer.login,
         date: reformatDate(obj.commit.author.date),
         message: obj.commit.message,
+        sha: obj.sha,
       };
     });
 </script>
@@ -35,18 +36,31 @@
   <div class="commits-tab">
     <h1>Commits ({{ REPO }})</h1>
     <hr class="rule" />
-    <div class="commit" v-for="commit in commitData()" :key="commit.id">
-      <div class="v-rule-sm" />
-      <h2 style="width: 50%">{{ commit.message }}</h2>
-      <span style="font-size: 1.2rem; margin-left: auto"
-        >{{ commit.date }} ~ {{ commit.author }}</span
-      >
+    <div class="line" v-for="commit in commitData()" :key="commit.id">
+      <div class="commit">
+        <span class="bullet" />
+        <span>
+          <h2>{{ commit.message }}</h2>
+          <span style="filter: opacity(0.33); font-size: 1rem">{{ commit.sha }}</span>
+        </span>
+        <span style="font-size: 1.2rem; margin-left: auto; text-align: right; width: max-content"
+          >{{ commit.date }} ({{ commit.author }})</span
+        >
+      </div>
+      <hr class="rule-sm" />
     </div>
-    <hr class="rule-sm" />
   </div>
 </template>
 
 <style scoped>
+  .commits-tab {
+    max-width: 50%;
+  }
+
+  .commits-tab > .line:last-child > .rule-sm {
+    display: none;
+  }
+
   .commit {
     align-items: center;
     display: flex;

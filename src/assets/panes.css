@@ -1,0 +1,45 @@
+div.sumi-pane {
+  background: linear-gradient(
+    22.5deg,
+    rgba(96, 128, 159, 0.08),
+    rgba(48, 64, 80, 0.133),
+    rgba(128, 159, 191, 0.133)
+  );
+  border-bottom: solid 1px rgba(24, 32, 40, 0.33);
+  border-radius: 8px;
+  border-top: solid 1px rgba(48, 64, 80, 0.5);
+  height: max-content;
+  padding: 5px 6px;
+}
+
+div.sumi-pane__gradient1 {
+  background: linear-gradient(185deg, transparent, rgb(12, 18, 24), rgb(36, 18, 12));
+  max-width: max-content;
+}
+
+hr.rule {
+  background: linear-gradient(0deg, rgba(96, 128, 159, 0.033), rgba(96, 128, 159, 0.133));
+  border-radius: 2px;
+  border: none;
+  height: 4px;
+  margin: 6px 0;
+}
+
+hr.rule-sm {
+  background: linear-gradient(0deg, rgba(96, 128, 159, 0.033), rgba(96, 128, 159, 0.133));
+  border-radius: 1px;
+  border: none;
+  height: 2px;
+  margin: 6px 0;
+}
+
+span.bullet {
+  background: linear-gradient(0deg, rgba(96, 128, 159, 0.033), rgba(96, 128, 159, 0.133));
+  border-radius: 0 4px 0 4px;
+  min-height: 8px;
+  min-width: 8px;
+}
+
+.bullet {
+  margin: 6px;
+}

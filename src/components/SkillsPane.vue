@@ -2,10 +2,8 @@
   import { computed, ref } from "vue";
 
   import SkillTab from "@/components/SkillTab.vue";
-  import CommitsTab from "@/components/CommitsTab/CommitsTab.vue";
-  import CommitsTabLoading from "@/components/CommitsTab/CommitsTabLoading.vue";
 
-  import { skillsPool, playerSkillsPool } from "@/sb/skillsStore.js";
+  import { skillsPool } from "@/skillsGeneral.js";
   import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
 
   const player = usePlayerCharacterStore();
@@ -14,27 +12,27 @@
   const special = computed(() => skillsPool.value[1].sort((a, b) => a.name > b.name));
   const prodigal = computed(() =>
     skillsPool.value[0]
-      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 4)
+      .filter((skill) => player.skills.pool[0][skill.id].rank === 4)
       .sort((a, b) => a.name > b.name),
   );
   const specialized = computed(() =>
     skillsPool.value[0]
-      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 3)
+      .filter((skill) => player.skills.pool[0][skill.id].rank === 3)
       .sort((a, b) => a.name > b.name),
   );
   const trained = computed(() =>
     skillsPool.value[0]
-      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 2)
+      .filter((skill) => player.skills.pool[0][skill.id].rank === 2)
       .sort((a, b) => a.name > b.name),
   );
   const untrained = computed(() =>
     skillsPool.value[0]
-      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 1)
+      .filter((skill) => player.skills.pool[0][skill.id].rank === 1)
       .sort((a, b) => a.name > b.name),
   );
   const unusable = computed(() =>
     skillsPool.value[0]
-      .filter((skill) => playerSkillsPool.value[0][skill.id].rank === 0)
+      .filter((skill) => player.skills.pool[0][skill.id].rank === 0)
       .sort((a, b) => a.name > b.name),
   );
 
@@ -45,6 +43,32 @@
     pool.value = payload.pool;
     skillId.value = payload.id;
   };
+
+  // sim - OBSOLETE
+  // const cantripAdd = 25;
+
+  // function getRandIntInc(min, max) {
+  //   min = Math.ceil(min);
+  //   max = Math.floor(max);
+  //   return Math.floor(Math.random() * (max - min + 1) + min);
+  // }
+
+  // player.skills.pool[0].forEach((skill) => {
+  //   if (skill.rank === 4) skill.val += getRandIntInc(50, 74);
+  //   else if (skill.rank === 3) skill.val += getRandIntInc(25, 49);
+  //   else if (skill.rank === 2) skill.val += getRandIntInc(0, 24);
+  // });
+
+  // player.skills.pool[0].forEach((skill) => (skill.cantrip += cantripAdd));
+
+  // // quick hack
+  // // if a skill is unusable, then it is truly unusable
+  // player.skills.pool[0].forEach((skill) => {
+  //   if (skill.rank === 0) {
+  //     skill.val = 0;
+  //     skill.cantrip = 0;
+  //   }
+  // });
 </script>
 
 <template>
@@ -55,8 +79,8 @@
       </h1>
       <hr class="rule" />
       <div style="height: 504px; overflow: scroll; scrollbar-width: none; width: 320px">
-        <div class="pane rank" v-show="special.length">
-          <div class="v-rule-sm" />
+        <div class="rank" v-show="special.length">
+          <span class="bullet" />
           <h2>
             Innate / Racial<span v-show="player.race">&nbsp;({{ player.race }})</span>
           </h2>
@@ -70,8 +94,8 @@
             :group="'skill-selected'"
           />
         </div>
-        <div class="pane rank" v-show="prodigal.length">
-          <div class="v-rule-sm" />
+        <div class="rank" v-show="prodigal.length">
+          <span class="bullet" />
           <h2>Prodigy</h2>
         </div>
         <div>
@@ -83,8 +107,8 @@
             :group="'skill-selected'"
           />
         </div>
-        <div class="pane rank" v-show="specialized.length">
-          <div class="v-rule-sm" />
+        <div class="rank" v-show="specialized.length">
+          <span class="bullet" />
           <h2>Specialized</h2>
         </div>
         <div>
@@ -96,8 +120,8 @@
             :group="'skill-selected'"
           />
         </div>
-        <div class="pane rank" v-show="trained.length">
-          <div class="v-rule-sm" />
+        <div class="rank" v-show="trained.length">
+          <span class="bullet" />
           <h2>Trained</h2>
         </div>
         <div>
@@ -109,8 +133,8 @@
             :group="'skill-selected'"
           />
         </div>
-        <div class="pane rank" v-show="untrained.length">
-          <div class="v-rule-sm" />
+        <div class="rank" v-show="untrained.length">
+          <span class="bullet" />
           <h2>Untrained</h2>
         </div>
         <div>
@@ -122,8 +146,8 @@
             :group="'skill-selected'"
           />
         </div>
-        <div class="pane rank" v-show="unusable.length">
-          <div class="v-rule-sm" />
+        <div class="rank" v-show="unusable.length">
+          <span class="bullet" />
           <h2>Unusable</h2>
         </div>
         <div>
@@ -137,7 +161,7 @@
         </div>
       </div>
       <!-- Todo: put into its own component; eliminate inline styles -->
-      <div class="pane" style="border-radius: 8px; margin-top: 6px; width: 320px">
+      <div class="sumi-pane" style="border-radius: 8px; margin-top: 6px; width: 320px">
         <div v-if="skillId != null">
           <div style="align-items: center; display: flex; height: 28px">
             <h2>{{ skillsPool[pool][skillId].name }}</h2>
@@ -170,106 +194,10 @@
         </div>
       </div>
     </div>
-
-    <Suspense>
-      <template #default>
-        <CommitsTab style="margin-left: auto; width: 480px" />
-      </template>
-      <template #fallback>
-        <CommitsTabLoading style="margin-left: auto; width: 480px" />
-      </template>
-    </Suspense>
   </div>
 </template>
 
 <style>
-  /* global */
-  @import "@/assets/normalize.css";
-  @import "@/assets/base.css";
-
-  body {
-    padding: 40px;
-  }
-</style>
-
-<style>
-  /* local */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: rgba(96, 128, 159, 0.85);
-    font-weight: normal;
-    margin: 0;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.6rem;
-  }
-
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: 1.4rem;
-  }
-
-  span.ico-def {
-    background-image: url("../assets/ico/magic-swirl.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 6px;
-    box-shadow: inset -6px -6px 12px 0 rgba(96, 128, 159, 0.33);
-    height: 24px;
-    margin-left: -4px;
-    margin-right: 6px;
-    width: 24px;
-  }
-
-  .skill-tab:first-child > .skill-tab_row {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-
-  .skill-tab:last-child > .skill-tab_row {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-
-  .pane {
-    background: linear-gradient(
-      22.5deg,
-      rgba(96, 128, 159, 0.165) 5%,
-      rgba(48, 64, 80, 0.1),
-      rgba(128, 159, 191, 0.05) 95%
-    );
-    border-bottom: solid 0.5px rgba(24, 32, 40, 0.33);
-    border-top: solid 0.5px rgba(48, 64, 80, 0.5);
-    box-shadow: inset 4px 4px 8px 0 rgba(96, 128, 159, 0.1);
-    padding: 5.5px 6px;
-  }
-
-  .bg-gradient1 {
-    background: linear-gradient(185deg, transparent, rgb(12, 18, 24), rgb(36, 18, 12));
-    max-width: fit-content;
-  }
-
-  .frame-style1 {
-    background: linear-gradient(
-      -22.5deg,
-      rgba(96, 128, 159, 0.165) 5%,
-      rgba(48, 64, 80, 0.1),
-      rgba(128, 159, 191, 0.05) 95%
-    );
-    box-shadow: inset 6px 6px 24px 0 rgba(96, 128, 159, 0.165);
-  }
-
   .rank {
     align-items: center;
     background: none;
@@ -279,17 +207,5 @@
     height: 28px;
     padding: 0;
     user-select: none;
-  }
-
-  .rank-cnt {
-    border-radius: 12px;
-    box-shadow: inset 3px 3px 12px 0 rgba(96, 128, 159, 0.165);
-    color: rgba(96, 128, 159, 0.85);
-    display: inline-block;
-    font-size: 1.2rem;
-    line-height: 0;
-    padding: 12px 0;
-    text-align: center;
-    width: 24px;
   }
 </style>

@@ -25,36 +25,11 @@ html {
 
 body {
   background: var(--color-background);
-  background: linear-gradient(185deg, rgb(16, 16, 16), rgb(12, 18, 24), rgb(36, 18, 12));
+  background: linear-gradient(185deg, rgb(16, 16, 16), rgb(12, 18, 24), rgb(36, 18, 12) 70%);
   color: var(--color-text);
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 1.4rem;
   line-height: 1.4;
   min-height: 100vh;
-}
-
-hr.rule {
-  background: linear-gradient(135deg, rgba(96, 128, 159, 0.165) 33%, transparent);
-  border-radius: 2px;
-  border: none;
-  height: 4px;
-  margin: 6px 2px;
-}
-
-hr.rule-sm {
-  background: linear-gradient(135deg, rgba(96, 128, 159, 0.165) 33%, transparent);
-  border-radius: 1px;
-  border: none;
-  height: 2px;
-  margin: 6px 2px;
-}
-
-div.v-rule-sm {
-  background: rgba(48, 64, 80, 0.33);
-  border-radius: 2px;
-  display: inline-block;
-  height: 8px;
-  margin: 10px;
-  width: 8px;
 }

@@ -1,43 +1,48 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import HitPtCalc from "@/views/HitPtCalc.vue";
-import MinimalView from "@/views/MinimalView.vue";
-import PaperDoll from "@/views/PaperDoll.vue";
-import PaperDollAttributes from "@/views/PaperDollAttributes.vue";
-import PaperDollNotoriety from "@/views/PaperDollNotoriety.vue";
-import PaperDollQuote from "@/views/PaperDollQuote.vue";
-import PaperDollSkills from "@/views/PaperDollSkills.vue";
+import SumiRG from "@/views/SumiRG.vue";
+
+import CommitsTabSus from "@/components/CommitsTab/CommitsTabSus.vue";
+import SkillsPane from "@/components/SkillsPane.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      component: MinimalView,
+      component: SumiRG,
     },
     {
-      path: "/doll",
-      component: PaperDoll,
-      children: [
-        {
-          path: "attributes",
-          component: PaperDollAttributes,
-        },
-        {
-          path: "skills",
-          component: PaperDollSkills,
-        },
-        {
-          path: "notoriety",
-          component: PaperDollNotoriety,
-        },
-        {
-          path: "quote",
-          component: PaperDollQuote,
-        },
-      ],
+      path: "/commits",
+      component: CommitsTabSus,
     },
-    { path: "/hit-calc", component: HitPtCalc },
+    {
+      path: "/skills-pane",
+      component: SkillsPane,
+    },
+    // {
+    //   path: "/doll",
+    //   component: PaperDoll,
+    //   children: [
+    //     {
+    //       path: "attributes",
+    //       component: PaperDollAttributes,
+    //     },
+    //     {
+    //       path: "skills",
+    //       component: PaperDollSkills,
+    //     },
+    //     {
+    //       path: "notoriety",
+    //       component: PaperDollNotoriety,
+    //     },
+    //     {
+    //       path: "quote",
+    //       component: PaperDollQuote,
+    //     },
+    //   ],
+    // },
+    // { path: "/hit-calc", component: HitPtCalc },
   ],
 });
 

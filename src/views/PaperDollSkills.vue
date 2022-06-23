@@ -4,19 +4,19 @@
   import { creatureSkills } from "@/gameVars.js";
 
   const skillsAreUnusable = computed(() =>
-    creatureSkills.filter((skill) => skill.specStatus === 0).sort((a, b) => a.name > b.name)
+    creatureSkills.filter((skill) => skill.specStatus === 0).sort((a, b) => a.name > b.name),
   );
   const skillsAreUntrained = computed(() =>
-    creatureSkills.filter((skill) => skill.specStatus === 1).sort((a, b) => a.name > b.name)
+    creatureSkills.filter((skill) => skill.specStatus === 1).sort((a, b) => a.name > b.name),
   );
   const skillsAreTrained = computed(() =>
-    creatureSkills.filter((skill) => skill.specStatus === 2).sort((a, b) => a.name > b.name)
+    creatureSkills.filter((skill) => skill.specStatus === 2).sort((a, b) => a.name > b.name),
   );
   const skillsAreSpecialized = computed(() =>
-    creatureSkills.filter((skill) => skill.specStatus === 3).sort((a, b) => a.name > b.name)
+    creatureSkills.filter((skill) => skill.specStatus === 3).sort((a, b) => a.name > b.name),
   );
   const skillsAreProdigal = computed(() =>
-    creatureSkills.filter((skill) => skill.specStatus === 4).sort((a, b) => a.name > b.name)
+    creatureSkills.filter((skill) => skill.specStatus === 4).sort((a, b) => a.name > b.name),
   );
 </script>
 

@@ -201,6 +201,7 @@ const skillsPool = ref([
   ],
 ]);
 
+/*
 // player skill value pool
 // pool index
 // 0 = general skills
@@ -378,32 +379,6 @@ const playerSkillsPool = ref([
     },
   ],
 ]);
+*/
 
-//
-// sim
-const cantripAdd = 25;
-
-function getRandIntInc(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-playerSkillsPool.value[0].forEach((skill) => {
-  if (skill.rank === 4) skill.val = getRandIntInc(50, 74);
-  else if (skill.rank === 3) skill.val = getRandIntInc(25, 49);
-  else if (skill.rank === 2) skill.val = getRandIntInc(0, 24);
-});
-
-playerSkillsPool.value[0].forEach((skill) => (skill.cantrip += cantripAdd));
-
-// quick hack
-// if a skill is unusable, then it is truly unusable
-playerSkillsPool.value[0].forEach((skill) => {
-  if (skill.rank === 0) {
-    skill.val = 0;
-    skill.cantrip = 0;
-  }
-});
-
-export { skillsPool, playerSkillsPool };
+export { skillsPool };
