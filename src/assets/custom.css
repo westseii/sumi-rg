@@ -7,14 +7,13 @@
   cursor: pointer;
   display: inline-block;
   line-height: 28px;
-  margin: 4px;
   padding: 0 14px;
   text-decoration: none;
   user-select: none;
 }
 
 .sumi-btn-1:hover {
-  filter: brightness(1.5) hue-rotate(-30deg);
+  filter: brightness(1.5);
   transition: ease 0.15s;
 }
 
@@ -25,7 +24,7 @@
 
 .sumi-btn-1[disabled="true"] {
   cursor: not-allowed;
-  filter: brightness(0.5) hue-rotate(180deg) opacity(0.67);
+  filter: brightness(0.5) opacity(0.67);
   top: 0;
 }
 

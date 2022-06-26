@@ -43,46 +43,20 @@
     pool.value = payload.pool;
     skillId.value = payload.id;
   };
-
-  // sim - OBSOLETE
-  // const cantripAdd = 25;
-
-  // function getRandIntInc(min, max) {
-  //   min = Math.ceil(min);
-  //   max = Math.floor(max);
-  //   return Math.floor(Math.random() * (max - min + 1) + min);
-  // }
-
-  // player.skills.pool[0].forEach((skill) => {
-  //   if (skill.rank === 4) skill.val += getRandIntInc(50, 74);
-  //   else if (skill.rank === 3) skill.val += getRandIntInc(25, 49);
-  //   else if (skill.rank === 2) skill.val += getRandIntInc(0, 24);
-  // });
-
-  // player.skills.pool[0].forEach((skill) => (skill.cantrip += cantripAdd));
-
-  // // quick hack
-  // // if a skill is unusable, then it is truly unusable
-  // player.skills.pool[0].forEach((skill) => {
-  //   if (skill.rank === 0) {
-  //     skill.val = 0;
-  //     skill.cantrip = 0;
-  //   }
-  // });
 </script>
 
 <template>
   <div style="display: flex">
     <div>
       <h1>
-        <span v-show="player.name">{{ player.name }}'s&nbsp;</span>Skills
+        <span v-show="player.name">{{ player.name }}'s </span>Skills
       </h1>
       <hr class="rule" />
       <div style="height: 504px; overflow: scroll; scrollbar-width: none; width: 320px">
         <div class="rank" v-show="special.length">
           <span class="bullet" />
           <h2>
-            Innate / Racial<span v-show="player.race">&nbsp;({{ player.race }})</span>
+            Innate / Racial<span v-show="player.race"> ({{ player.race }})</span>
           </h2>
         </div>
         <div>

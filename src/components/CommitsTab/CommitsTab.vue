@@ -28,6 +28,7 @@
         date: reformatDate(obj.commit.author.date),
         message: obj.commit.message,
         sha: obj.sha,
+        url: obj.html_url,
       };
     });
 </script>
@@ -41,28 +42,47 @@
         <span class="bullet" />
         <span>
           <h2>{{ commit.message }}</h2>
-          <span style="filter: opacity(0.33); font-size: 1rem">{{ commit.sha }}</span>
+          <span style="filter: opacity(0.5); font-size: 1rem"
+            >sha:
+            <a class="sha" :href="`${commit.url}`" target="_blank" rel="noopener noreferrer">{{
+              commit.sha
+            }}</a></span
+          >
         </span>
         <span style="font-size: 1.2rem; margin-left: auto; text-align: right; width: max-content"
           >{{ commit.date }} ({{ commit.author }})</span
         >
       </div>
-      <hr class="rule-sm" />
+      <!-- <hr class="rule-sm" /> -->
+      <br />
     </div>
   </div>
 </template>
 
 <style scoped>
-  .commits-tab {
-    max-width: 50%;
-  }
-
+  /* 
   .commits-tab > .line:last-child > .rule-sm {
     display: none;
   }
+ */
 
   .commit {
     align-items: center;
     display: flex;
+  }
+
+  .sha:link {
+    color: inherit;
+  }
+
+  .sha:visited {
+    color: inherit;
+  }
+
+  .sha:hover {
+    bottom: 0;
+    color: hotpink;
+    font-size: 1.4rem;
+    position: absolute;
   }
 </style>

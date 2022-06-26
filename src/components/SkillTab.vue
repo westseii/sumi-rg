@@ -4,6 +4,7 @@
   import { skillsPool } from "@/skillsGeneral.js";
   import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
 
+  // does this need to be imported?
   const player = usePlayerCharacterStore();
 
   const props = defineProps({
@@ -51,7 +52,7 @@
       <span :class="icon" />
       <span :class="textColor">{{ skillsPool[skill.pool][skill.id].name }}</span>
       <div style="margin-left: auto">
-        <span class="clr-cantrip" v-show="cantrip">(+{{ cantrip }})&nbsp;</span>
+        <span class="clr-cantrip" v-show="cantrip">(+{{ cantrip }}) </span>
         <span :class="textColorUnused && 'clr-unusable'">{{ val + cantrip }}</span>
       </div>
     </label>

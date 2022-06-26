@@ -1,15 +1,41 @@
 <script setup>
   import { RouterLink, RouterView } from "vue-router";
+
+  // temp
+  import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
+
+  const player = usePlayerCharacterStore();
+
+  // temp, dis not good
+  const cantripAdd = 5;
+  function getRandIntInc(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  player.skills.pool[0].forEach((skill) => {
+    if (skill.rank === 4) skill.val += getRandIntInc(60, 74);
+    else if (skill.rank === 3) skill.val += getRandIntInc(45, 59);
+    else if (skill.rank === 2) skill.val += getRandIntInc(30, 44);
+  });
+  player.skills.pool[0].forEach((skill) => (skill.cantrip += cantripAdd));
+  // if a skill is unusable, then it is truly unusable
+  player.skills.pool[0].forEach((skill) => {
+    if (skill.rank === 0) {
+      skill.val = 0;
+      skill.cantrip = 0;
+    }
+  });
 </script>
 
 <template>
   <div class="flex-1">
-    <RouterLink class="rl" to="/">Sumi RG</RouterLink>
-    <RouterLink class="rl" to="/commits">Commit Log</RouterLink>
-    <RouterLink class="rl" to="/skills-pane">Skills Pane</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="/">Sumi RG</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="/commits">Commit Log</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="/skills-pane">Skills</RouterLink>
     <!-- <RouterLink class="sumi-btn-1" to="/doll/attributes">Doll</RouterLink> -->
-    <hr class="rule" />
   </div>
+  <hr class="rule" />
   <RouterView />
 </template>
 
@@ -17,6 +43,7 @@
   /* global */
   @import "@/assets/normalize.css";
   @import "@/assets/base.css";
+  @import "@/assets/custom.css";
   @import "@/assets/panes.css";
 
   body {
@@ -59,8 +86,10 @@
     margin: 0 6px 0 -4px;
     width: 22px;
   }
+</style>
 
+<style scoped>
   .rl {
-    margin-right: 6px;
+    margin: 6px 6px 0 0;
   }
 </style>
