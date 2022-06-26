@@ -6,7 +6,7 @@
 
   const error = ref(null);
 
-  // probably due to bad creds
+  // probably due to bad credentials
   onErrorCaptured((e) => {
     error.value = e;
     return false; // don't propagate to errorHandler; handled

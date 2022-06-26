@@ -7,7 +7,7 @@
   const player = usePlayerCharacterStore();
 
   // temp, dis not good
-  const cantripAdd = 5;
+  const cantripAdd = 0;
   function getRandIntInc(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -16,7 +16,7 @@
   player.skills.pool[0].forEach((skill) => {
     if (skill.rank === 4) skill.val += getRandIntInc(60, 74);
     else if (skill.rank === 3) skill.val += getRandIntInc(45, 59);
-    else if (skill.rank === 2) skill.val += getRandIntInc(30, 44);
+    else if (skill.rank === 2) skill.val += getRandIntInc(0, 44);
   });
   player.skills.pool[0].forEach((skill) => (skill.cantrip += cantripAdd));
   // if a skill is unusable, then it is truly unusable
@@ -29,10 +29,11 @@
 </script>
 
 <template>
-  <div class="flex-1">
+  <div class="flex">
     <RouterLink class="sumi-btn-1 rl" to="/">Sumi RG</RouterLink>
-    <RouterLink class="sumi-btn-1 rl" to="/commits">Commit Log</RouterLink>
     <RouterLink class="sumi-btn-1 rl" to="/skills-pane">Skills</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="" disabled>World</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="/commits">Commit Log</RouterLink>
     <!-- <RouterLink class="sumi-btn-1" to="/doll/attributes">Doll</RouterLink> -->
   </div>
   <hr class="rule" />
@@ -91,5 +92,13 @@
 <style scoped>
   .rl {
     margin: 6px 6px 0 0;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .flex .sumi-btn-1:last-child {
+    margin: 6px 0 0 auto;
   }
 </style>
