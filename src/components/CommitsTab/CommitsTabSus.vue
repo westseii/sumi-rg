@@ -16,8 +16,20 @@
 <template>
   <div class="commits-tab-sus">
     <div v-if="error">
-      <h1>{{ error }}</h1>
-      <p>Check your GitHub authentication credentials.</p>
+      <div v-if="error.message === 'Bad credentials'">
+        <h1>
+          <strong>{{ error.name }}</strong> - {{ error.message }}
+        </h1>
+        <p>Check your GitHub authentication credentials.</p>
+        <span class="sad">so sad... ^-^</span>
+      </div>
+      <div v-else>
+        <h1>
+          <strong>{{ error.name }}</strong> - {{ error.message }}
+        </h1>
+        <p>Something went wrong.</p>
+        <span class="sad">so sad... ^-^</span>
+      </div>
     </div>
     <Suspense v-else>
       <template #default>
@@ -32,6 +44,17 @@
 
 <style scoped>
   .commits-tab-sus {
-    width: 600px;
+    width: 576px;
+  }
+
+  .sad {
+    filter: opacity(0.08) blur(5px);
+    font-size: 9em;
+    left: 10px;
+    position: absolute;
+    rotate: -10deg;
+    top: 20px;
+    user-select: none;
+    z-index: -1;
   }
 </style>

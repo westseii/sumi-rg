@@ -3,7 +3,7 @@
 
   const loadingText = ref("Commits loading ");
 
-  const dirtyWords = ["sh*t", "p^ss", "f*ck", "c_nt", "c*cks^ck*r", "m_th*rf^ck*r", "t_ts"];
+  const dirtyWords = ["sh*t ", "p^ss ", "f*ck ", "c_nt ", "c*cks^ck*r ", "m_th*rf^ck*r ", "t_ts "];
 
   const getRandomDirt = () => dirtyWords[Math.floor(Math.random() * dirtyWords.length)];
   const getRandomChance = () => Math.floor(Math.random() * 101);
@@ -16,7 +16,7 @@
 
   setTimeout(() => {
     clearInterval(ticker);
-    loadingText.value = loadingText.value.concat("WELP...");
+    loadingText.value = loadingText.value.concat(":(");
   }, 25_100);
 </script>
 

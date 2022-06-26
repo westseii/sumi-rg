@@ -8,31 +8,32 @@
 
   // temp, dis not good
   const cantripAdd = 0;
-  function getRandIntInc(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-  player.skills.pool[0].forEach((skill) => {
-    if (skill.rank === 4) skill.val += getRandIntInc(60, 74);
-    else if (skill.rank === 3) skill.val += getRandIntInc(45, 59);
-    else if (skill.rank === 2) skill.val += getRandIntInc(0, 44);
-  });
-  player.skills.pool[0].forEach((skill) => (skill.cantrip += cantripAdd));
-  // if a skill is unusable, then it is truly unusable
-  player.skills.pool[0].forEach((skill) => {
-    if (skill.rank === 0) {
-      skill.val = 0;
-      skill.cantrip = 0;
-    }
-  });
+  // function getRandIntInc(min, max) {
+  //   min = Math.ceil(min);
+  //   max = Math.floor(max);
+  //   return Math.floor(Math.random() * (max - min + 1) + min);
+  // }
+  // player.skills[0].forEach((skill) => {
+  //   if (skill.rank === 4) skill.val += getRandIntInc(60, 74);
+  //   else if (skill.rank === 3) skill.val += getRandIntInc(45, 59);
+  //   else if (skill.rank === 2) skill.val += getRandIntInc(0, 44);
+  // });
+  player.skills[0].forEach((skill) => (skill.cantrip += cantripAdd));
+  // // if a skill is unusable, then it is truly unusable
+  // player.skills[0].forEach((skill) => {
+  //   if (skill.rank === 0) {
+  //     skill.val = 0;
+  //     skill.cantrip = 0;
+  //   }
+  // });
 </script>
 
 <template>
   <div class="flex">
-    <RouterLink class="sumi-btn-1 rl" to="/">Sumi RG</RouterLink>
-    <RouterLink class="sumi-btn-1 rl" to="/skills-pane">Skills</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="/">...</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="/skills-pane">Character</RouterLink>
     <RouterLink class="sumi-btn-1 rl" to="" disabled>World</RouterLink>
+
     <RouterLink class="sumi-btn-1 rl" to="/commits">Commit Log</RouterLink>
     <!-- <RouterLink class="sumi-btn-1" to="/doll/attributes">Doll</RouterLink> -->
   </div>

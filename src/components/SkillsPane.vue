@@ -1,40 +1,45 @@
 <script setup>
-  import { computed, ref } from "vue";
+  import { computed, ref, watchEffect } from "vue";
 
   import SkillTab from "@/components/SkillTab.vue";
 
-  import { skillsPool } from "@/skillsGeneral.js";
+  import { skillsInfo } from "@/skillsInfo.js";
   import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
 
   const player = usePlayerCharacterStore();
 
   // computed values
-  const special = computed(() => skillsPool.value[1].sort((a, b) => a.name > b.name));
   const prodigal = computed(() =>
-    skillsPool.value[0]
-      .filter((skill) => player.skills.pool[0][skill.id].rank === 4)
+    skillsInfo[0]
+      .filter((skill) => player.skills[0][skill.id].rank === 4)
       .sort((a, b) => a.name > b.name),
   );
+
   const specialized = computed(() =>
-    skillsPool.value[0]
-      .filter((skill) => player.skills.pool[0][skill.id].rank === 3)
+    skillsInfo[0]
+      .filter((skill) => player.skills[0][skill.id].rank === 3)
       .sort((a, b) => a.name > b.name),
   );
+
   const trained = computed(() =>
-    skillsPool.value[0]
-      .filter((skill) => player.skills.pool[0][skill.id].rank === 2)
+    skillsInfo[0]
+      .filter((skill) => player.skills[0][skill.id].rank === 2)
       .sort((a, b) => a.name > b.name),
   );
+
   const untrained = computed(() =>
-    skillsPool.value[0]
-      .filter((skill) => player.skills.pool[0][skill.id].rank === 1)
+    skillsInfo[0]
+      .filter((skill) => player.skills[0][skill.id].rank === 1)
       .sort((a, b) => a.name > b.name),
   );
+
   const unusable = computed(() =>
-    skillsPool.value[0]
-      .filter((skill) => player.skills.pool[0][skill.id].rank === 0)
+    skillsInfo[0]
+      .filter((skill) => player.skills[0][skill.id].rank === 0)
       .sort((a, b) => a.name > b.name),
   );
+
+  const special = computed(() => skillsInfo[1].sort((a, b) => a.name > b.name));
 
   // events
   const pool = ref(null);
@@ -138,18 +143,18 @@
       <div class="sumi-pane" style="border-radius: 8px; margin-top: 6px; width: 320px">
         <div v-if="skillId != null">
           <div style="align-items: center; display: flex; height: 28px">
-            <h2>{{ skillsPool[pool][skillId].name }}</h2>
+            <h2>{{ skillsInfo[pool][skillId].name }}</h2>
             <!-- has fx -->
-            <h2 v-if="skillsPool[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
-              {{ skillsPool[pool][skillId].fx }}
+            <h2 v-if="skillsInfo[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
+              {{ skillsInfo[pool][skillId].fx }}
             </h2>
             <!-- racial only -->
-            <h2 v-if="!skillsPool[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
+            <h2 v-if="!skillsInfo[pool][skillId].fx" style="font-size: 1.2rem; margin-left: auto">
               Racial
             </h2>
           </div>
           <div style="max-height: 84px; overflow: scroll; scrollbar-width: none">
-            <p style="font-size: 1.2rem; line-height: 1.2">{{ skillsPool[pool][skillId].desc }}</p>
+            <p style="font-size: 1.2rem; line-height: 1.2">{{ skillsInfo[pool][skillId].desc }}</p>
           </div>
           <hr class="rule-sm" />
         </div>

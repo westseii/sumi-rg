@@ -1,26 +1,27 @@
 <script setup>
   import { computed } from "vue";
 
-  import { skillsPool } from "@/skillsGeneral.js";
+  import { skillsInfo } from "@/skillsInfo.js";
   import { usePlayerCharacterStore } from "@/stores/playerCharacter.js";
 
-  // does this need to be imported?
   const player = usePlayerCharacterStore();
 
   const props = defineProps({
-    skill: Object,
+    skill: Object, // { pool: s.pool, id: s.id }
     icon: { type: String, default: "ico-def" },
     group: String,
   });
 
   // computed values
-  const val = computed(() => player.skills.pool[props.skill.pool][props.skill.id].val);
-  const cantrip = computed(() => player.skills.pool[props.skill.pool][props.skill.id].cantrip);
+  const val = computed(() => player.skills[props.skill.pool][props.skill.id].val);
+
+  const cantrip = computed(() => player.skills[props.skill.pool][props.skill.id].cantrip);
+
   const label = computed(() => `${props.skill.pool}${props.skill.id}`);
+
   const textColor = computed(() => {
     if (props.skill.pool === 0) {
-      // pool 0 is for all of the universal non-racial skills
-      switch (player.skills.pool[props.skill.pool][props.skill.id].rank) {
+      switch (player.skills[props.skill.pool][props.skill.id].rank) {
         case 0:
           return "clr-unusable";
         case 1:
@@ -34,8 +35,9 @@
       }
     } else return "clr-special"; // for racial skills
   });
+
   const textColorUnused = computed(
-    () => player.skills.pool[props.skill.pool][props.skill.id].rank === 0,
+    () => player.skills[props.skill.pool][props.skill.id].rank === 0,
   );
 </script>
 
@@ -50,7 +52,7 @@
     />
     <label class="skill-tab-row radio-label" :for="label">
       <span :class="icon" />
-      <span :class="textColor">{{ skillsPool[skill.pool][skill.id].name }}</span>
+      <span :class="textColor">{{ skillsInfo[skill.pool][skill.id].name }}</span>
       <div style="margin-left: auto">
         <span class="clr-cantrip" v-show="cantrip">(+{{ cantrip }}) </span>
         <span :class="textColorUnused && 'clr-unusable'">{{ val + cantrip }}</span>

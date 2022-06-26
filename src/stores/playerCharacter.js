@@ -1,40 +1,26 @@
 import { defineStore } from "pinia";
 
-import { usePlayerInventoryStore } from "@/stores/playerInventory.js";
-import { usePlayerNotorietyStore } from "@/stores/playerNotoriety.js";
-import { usePlayerSkillsStore } from "@/stores/playerSkills.js";
+import playerAttrs from "@/playerdata/playerAttrs.js";
+import playerSkills from "@/playerdata/playerSkills.js";
 
 export const usePlayerCharacterStore = defineStore({
   id: "playerCharacter",
   state: () => ({
+    // in the future; from database collection (MongoDB)
     name: "Huli",
     race: "Shade",
     gender: "Male",
     level: 50,
-    availableExp: 1_000_000,
-    totalExp: 1_000_000,
+    availableExp: 0,
+    totalExp: 0,
     vitality: {
-      health: 410,
-      stamina: 410,
-      mana: 615,
+      health: 1,
+      stamina: 1,
+      mana: 1,
       ultimate: 0,
     },
-    "primary attributes": {
-      strength: 100,
-      endurance: 100,
-      intellect: 150,
-      intuition: 150,
-      aptitude: 100,
-    },
-    "secondary attributes": {
-      might: 500,
-      finesse: 500,
-      cunning: 750,
-      instinct: 750,
-    },
-    inventory: usePlayerInventoryStore(),
-    notoriety: usePlayerNotorietyStore(),
-    skills: usePlayerSkillsStore(),
+    attributes: playerAttrs,
+    skills: playerSkills,
     quote: `The hasty rushing to and fro to fight, pry, claim, and steal.
     This land called <redacted>, where so many perish in the daily strife...
     Why have we been brought, to such a place of discord.
