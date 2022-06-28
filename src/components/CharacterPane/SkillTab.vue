@@ -36,9 +36,7 @@
     } else return "clr-special"; // for racial skills
   });
 
-  const textColorUnused = computed(
-    () => player.skills[props.skill.pool][props.skill.id].rank === 0,
-  );
+  const clrUnusable = computed(() => player.skills[props.skill.pool][props.skill.id].rank === 0);
 </script>
 
 <template>
@@ -48,21 +46,31 @@
       type="radio"
       :name="group"
       :id="label"
-      @click="$emit('skillSelected', { pool: skill.pool, id: skill.id })"
+      @click="$emit('skillSelected', props.skill)"
     />
-    <label class="skill-tab-row radio-label" :for="label">
+    <label class="stat-row radio-label" :for="label">
       <span :class="icon" />
       <span :class="textColor">{{ skillsInfo[skill.pool][skill.id].name }}</span>
       <div style="margin-left: auto">
         <span class="clr-cantrip" v-show="cantrip">(+{{ cantrip }}) </span>
-        <span :class="textColorUnused && 'clr-unusable'">{{ val + cantrip }}</span>
+        <span :class="clrUnusable && 'clr-unusable'">{{ val + cantrip }}</span>
       </div>
     </label>
   </div>
 </template>
 
 <style scoped>
-  .skill-tab-row {
+  .skill-tab:first-child > .stat-row {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .skill-tab:last-child > .stat-row {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .stat-row {
     align-items: center;
     background: linear-gradient(
       22.5deg,
@@ -79,18 +87,8 @@
     user-select: none;
   }
 
-  .skill-tab-row:hover {
+  .stat-row:hover {
     filter: brightness(1.5);
-  }
-
-  .skill-tab:first-child > .skill-tab-row {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-
-  .skill-tab:last-child > .skill-tab-row {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
   }
 
   .radio {
@@ -105,33 +103,5 @@
   .radio:checked ~ .radio-label span {
     color: #fff;
     transition: 0.1s ease;
-  }
-
-  .clr-special {
-    color: rgb(191, 80, 159);
-  }
-
-  .clr-prodigy {
-    color: rgb(80, 191, 159);
-  }
-
-  .clr-specialized {
-    color: rgb(48, 191, 48);
-  }
-
-  .clr-trained {
-    color: rgb(120, 191, 120);
-  }
-
-  .clr-untrained {
-    color: rgb(191, 191, 191);
-  }
-
-  .clr-unusable {
-    color: rgb(128, 80, 80);
-  }
-
-  .clr-cantrip {
-    color: rgb(80, 159, 191);
   }
 </style>

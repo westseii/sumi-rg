@@ -3,21 +3,21 @@
 
   const loadingText = ref("Commits loading ");
 
-  const dirtyWords = ["sh*t ", "p^ss ", "f*ck ", "c_nt ", "c*cks^ck*r ", "m_th*rf^ck*r ", "t_ts "];
+  const dirt = ["s@#t!", "p#$s!", "f$%k!"];
 
-  const getRandomDirt = () => dirtyWords[Math.floor(Math.random() * dirtyWords.length)];
-  const getRandomChance = () => Math.floor(Math.random() * 101);
+  const getRandomDirt = () => dirt[Math.floor(Math.random() * dirt.length)];
+  const randomChance = () => Math.floor(Math.random() * 101);
 
   const ticker = setInterval(() => {
     // 7 percent chance to curse
-    if (getRandomChance() < 7) loadingText.value = loadingText.value.concat(getRandomDirt(), " ");
+    if (randomChance() < 5) loadingText.value = loadingText.value.concat(getRandomDirt(), " ");
     else loadingText.value = loadingText.value.concat(". ");
-  }, 100);
+  }, 250);
 
   setTimeout(() => {
     clearInterval(ticker);
     loadingText.value = loadingText.value.concat(":(");
-  }, 25_100);
+  }, 100_250);
 </script>
 
 <template>

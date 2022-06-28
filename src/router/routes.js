@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import SumiRG from "@/views/SumiRG.vue";
 
 import CommitsTabSus from "@/components/CommitsTab/CommitsTabSus.vue";
-import SkillsPane from "@/components/SkillsPane.vue";
+import CharacterPane from "@/components/CharacterPane/CharacterPane.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +18,7 @@ const router = createRouter({
     },
     {
       path: "/skills-pane",
-      component: SkillsPane,
+      component: CharacterPane,
     },
     // {
     //   path: "/doll",

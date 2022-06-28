@@ -12,11 +12,6 @@ div.sumi-pane {
   padding: 5px 6px;
 }
 
-div.sumi-pane__gradient1 {
-  background: linear-gradient(185deg, transparent, rgb(12, 18, 24), rgb(36, 18, 12));
-  max-width: max-content;
-}
-
 hr.rule {
   background: linear-gradient(0deg, rgba(96, 128, 159, 0.066), rgba(96, 128, 159, 0.266));
   border-radius: 2px;

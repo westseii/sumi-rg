@@ -1,6 +1,6 @@
 :root {
   --vt-c-bg-black: #1a1a1a;
-  --vt-c-text-dark: rgba(230, 230, 230, 0.67);
+  --vt-c-text-dark: rgba(230, 230, 191, 0.67);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,11 +25,41 @@ html {
 
 body {
   background: var(--color-background);
-  background: linear-gradient(185deg, rgb(16, 16, 16), rgb(12, 18, 24), rgb(36, 18, 12) 70%);
+  background: linear-gradient(-195deg, rgb(12, 12, 12), rgb(18, 18, 18), rgb(0, 18, 36));
   color: var(--color-text);
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 1.4rem;
   line-height: 1.4;
   min-height: 100vh;
+}
+
+/* text colors */
+
+.clr-special {
+  color: rgb(191, 80, 159);
+}
+
+.clr-prodigy {
+  color: rgb(80, 191, 159);
+}
+
+.clr-specialized {
+  color: rgb(48, 191, 48);
+}
+
+.clr-trained {
+  color: rgb(120, 191, 120);
+}
+
+.clr-untrained {
+  color: rgb(191, 191, 191);
+}
+
+.clr-unusable {
+  color: rgb(128, 80, 80);
+}
+
+.clr-cantrip {
+  color: rgb(80, 159, 191);
 }

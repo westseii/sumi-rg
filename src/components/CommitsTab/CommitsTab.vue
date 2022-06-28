@@ -42,7 +42,7 @@
         <span class="bullet" />
         <span>
           <h2>{{ commit.message }}</h2>
-          <span style="filter: opacity(0.5); font-size: 1rem"
+          <span style="filter: opacity(0.33); font-size: 1rem"
             >sha:
             <a class="sha" :href="`${commit.url}`" target="_blank" rel="noopener noreferrer">{{
               commit.sha
@@ -60,11 +60,11 @@
 </template>
 
 <style scoped>
-  /* 
-  .commits-tab > .line:last-child > .rule-sm {
-    display: none;
-  }
- */
+  /*
+   .commits-tab > .line:last-child > .rule-sm {
+     display: none;
+   }
+  */
 
   .commit {
     align-items: center;
@@ -80,9 +80,7 @@
   }
 
   .sha:hover {
-    bottom: 0;
-    color: hotpink;
-    font-size: 1.4rem;
-    position: absolute;
+    color: lime;
+    font-size: 1.2rem;
   }
 </style>

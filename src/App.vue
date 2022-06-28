@@ -32,9 +32,13 @@
   <div class="flex">
     <RouterLink class="sumi-btn-1 rl" to="/">...</RouterLink>
     <RouterLink class="sumi-btn-1 rl" to="/skills-pane">Character</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="" disabled>Inventory</RouterLink>
+    <RouterLink class="sumi-btn-1 rl" to="" disabled>Commerce / Trade</RouterLink>
+    <RouterLink class="sumi-btn-1 bump" to="" disabled>Dwelling</RouterLink>
     <RouterLink class="sumi-btn-1 rl" to="" disabled>World</RouterLink>
+    <RouterLink class="sumi-btn-1 bump" to="" disabled>Notoriety</RouterLink>
 
-    <RouterLink class="sumi-btn-1 rl" to="/commits">Commit Log</RouterLink>
+    <RouterLink class="sumi-btn-1" to="/commits">Commit Log</RouterLink>
     <!-- <RouterLink class="sumi-btn-1" to="/doll/attributes">Doll</RouterLink> -->
   </div>
   <hr class="rule" />
@@ -93,6 +97,10 @@
 <style scoped>
   .rl {
     margin: 6px 6px 0 0;
+  }
+
+  .bump {
+    margin: 6px 6px 0 30px;
   }
 
   .flex {
