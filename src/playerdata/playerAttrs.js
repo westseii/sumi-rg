@@ -32,9 +32,9 @@ const playerAttrs = ref([
   {
     id: 4,
     val: 10,
-    val2: 0,
+    val2: 0, // does not matter
     cantrip: 0,
-    cantrip2: 0,
+    cantrip2: 0, // does not matter
   },
 ]);
 

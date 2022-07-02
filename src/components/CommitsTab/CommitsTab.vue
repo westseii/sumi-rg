@@ -34,7 +34,7 @@
 </script>
 
 <template>
-  <div class="commits-tab">
+  <div>
     <h1>Commits ({{ REPO }})</h1>
     <hr class="rule" />
     <div class="line" v-for="commit in commitData()" :key="commit.id">
@@ -60,12 +60,6 @@
 </template>
 
 <style scoped>
-  /*
-   .commits-tab > .line:last-child > .rule-sm {
-     display: none;
-   }
-  */
-
   .commit {
     align-items: center;
     display: flex;

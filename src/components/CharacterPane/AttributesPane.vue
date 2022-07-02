@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, ref } from "vue";
+  import { ref } from "vue";
 
   import AttributeTab from "@/components/CharacterPane/AttributeTab.vue";
 
@@ -16,39 +16,38 @@
 </script>
 
 <template>
-  <div class="attributes-pane" style="width: 320px">
-    <div style="height: 420px">
-      <div class="rank">
-        <span class="bullet" />
-        <h2>Attributes</h2>
+  <div>
+    <div class="rank">
+      <span class="bullet" />
+      <h2>Vitae</h2>
+    </div>
+    <!-- Todo: put into its own component; eliminate inline styles -->
+    <div style="padding: 0 6px">
+      <div style="color: brown; display: flex; line-height: 28px">
+        <span>Health:</span>
+        <span style="margin-left: auto">{{ player.vitality.health }}</span>
       </div>
-      <div>
-        <AttributeTab
-          @attribute-selected="attributeSelected"
-          v-for="a in attrsInfo"
-          :key="a.id"
-          :attribute-id="a.id"
-          :group="'attribute-selected'"
-        />
+      <div style="color: goldenrod; display: flex; line-height: 28px">
+        <span>Stamina:</span>
+        <span style="margin-left: auto">{{ player.vitality.stamina }}</span>
       </div>
-      <div class="rank">
-        <span class="bullet" />
-        <h2>Vitality</h2>
+      <div style="color: royalblue; display: flex; line-height: 28px">
+        <span>Mana:</span>
+        <span style="margin-left: auto">{{ player.vitality.mana }}</span>
       </div>
-      <p>{{ player.vitality }}</p>
+    </div>
+    <div class="rank">
+      <span class="bullet" />
+      <h2>Attributes</h2>
+    </div>
+    <div>
+      <AttributeTab
+        @attribute-selected="attributeSelected"
+        v-for="a in attrsInfo"
+        :key="a.id"
+        :attribute-id="a.id"
+        :group="'attribute-selected'"
+      />
     </div>
   </div>
 </template>
-
-<style>
-  .rank {
-    align-items: center;
-    background: none;
-    border: none;
-    box-shadow: none;
-    display: flex;
-    height: 28px;
-    padding: 0;
-    user-select: none;
-  }
-</style>

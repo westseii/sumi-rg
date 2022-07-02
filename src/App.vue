@@ -7,36 +7,32 @@
   const player = usePlayerCharacterStore();
 
   // temp, dis not good
-  const cantripAdd = 0;
-  // function getRandIntInc(min, max) {
-  //   min = Math.ceil(min);
-  //   max = Math.floor(max);
-  //   return Math.floor(Math.random() * (max - min + 1) + min);
-  // }
-  // player.skills[0].forEach((skill) => {
-  //   if (skill.rank === 4) skill.val += getRandIntInc(60, 74);
-  //   else if (skill.rank === 3) skill.val += getRandIntInc(45, 59);
-  //   else if (skill.rank === 2) skill.val += getRandIntInc(0, 44);
-  // });
+  const cantripAdd = 5;
+  function getRandIntInc(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+  player.skills[0].forEach((skill) => {
+    if (skill.rank === 4) skill.val += getRandIntInc(60, 74);
+    else if (skill.rank === 3) skill.val += getRandIntInc(45, 59);
+    else if (skill.rank === 2) skill.val += getRandIntInc(0, 44);
+  });
   player.skills[0].forEach((skill) => (skill.cantrip += cantripAdd));
   // // if a skill is unusable, then it is truly unusable
-  // player.skills[0].forEach((skill) => {
-  //   if (skill.rank === 0) {
-  //     skill.val = 0;
-  //     skill.cantrip = 0;
-  //   }
-  // });
+  player.skills[0].forEach((skill) => {
+    if (skill.rank === 0) {
+      skill.val = 0;
+      skill.cantrip = 0;
+    }
+  });
 </script>
 
 <template>
-  <div class="flex">
-    <RouterLink class="sumi-btn-1 rl" to="/">...</RouterLink>
-    <RouterLink class="sumi-btn-1 rl" to="/skills-pane">Character</RouterLink>
-    <RouterLink class="sumi-btn-1 rl" to="" disabled>Inventory</RouterLink>
-    <RouterLink class="sumi-btn-1 rl" to="" disabled>Commerce / Trade</RouterLink>
-    <RouterLink class="sumi-btn-1 bump" to="" disabled>Dwelling</RouterLink>
-    <RouterLink class="sumi-btn-1 rl" to="" disabled>World</RouterLink>
-    <RouterLink class="sumi-btn-1 bump" to="" disabled>Notoriety</RouterLink>
+  <div class="btn-container">
+    <RouterLink class="sumi-btn-1 btn-margins" to="/">...</RouterLink>
+    <RouterLink class="sumi-btn-1 btn-margins" to="/skills-pane">Character</RouterLink>
+    <RouterLink class="sumi-btn-1 btn-margins" to="" disabled>Placeholder</RouterLink>
 
     <RouterLink class="sumi-btn-1" to="/commits">Commit Log</RouterLink>
     <!-- <RouterLink class="sumi-btn-1" to="/doll/attributes">Doll</RouterLink> -->
@@ -49,65 +45,23 @@
   /* global */
   @import "@/assets/normalize.css";
   @import "@/assets/base.css";
-  @import "@/assets/custom.css";
   @import "@/assets/panes.css";
 
   body {
-    padding: 0 20px 20px 20px;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: rgba(96, 128, 159, 0.85);
-    font-weight: normal;
-    margin: 0;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.6rem;
-  }
-
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: 1.4rem;
-  }
-
-  span.ico-def {
-    background-image: url("@/assets/ico/magic-swirl.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 6px;
-    box-shadow: inset -6px -6px 12px 0 rgba(96, 128, 159, 0.33);
-    height: 22px;
-    margin: 0 6px 0 -4px;
-    width: 22px;
+    padding: 0px 6px 6px 6px;
   }
 </style>
 
 <style scoped>
-  .rl {
-    margin: 6px 6px 0 0;
-  }
-
-  .bump {
-    margin: 6px 6px 0 30px;
-  }
-
-  .flex {
+  .btn-container {
     display: flex;
   }
 
-  .flex .sumi-btn-1:last-child {
+  .btn-margins {
+    margin: 6px 6px 0 0;
+  }
+
+  .btn-container > .sumi-btn-1:last-child {
     margin: 6px 0 0 auto;
   }
 </style>

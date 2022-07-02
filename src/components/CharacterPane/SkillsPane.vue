@@ -51,7 +51,7 @@
 </script>
 
 <template>
-  <div class="skills-pane" style="width: 320px">
+  <div>
     <div style="height: 420px; overflow: scroll; scrollbar-width: none">
       <div class="rank" v-show="special.length">
         <span class="bullet" />
@@ -167,16 +167,3 @@
     </div>
   </div>
 </template>
-
-<style>
-  .rank {
-    align-items: center;
-    background: none;
-    border: none;
-    box-shadow: none;
-    display: flex;
-    height: 28px;
-    padding: 0;
-    user-select: none;
-  }
-</style>

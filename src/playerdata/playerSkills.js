@@ -26,7 +26,7 @@ const playerSkills = [
     },
     {
       id: 3,
-      rank: 1,
+      rank: 3,
       val: 10,
       cantrip: 0,
     },
@@ -38,7 +38,7 @@ const playerSkills = [
     },
     {
       id: 5,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
@@ -68,7 +68,7 @@ const playerSkills = [
     },
     {
       id: 10,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
@@ -80,7 +80,7 @@ const playerSkills = [
     },
     {
       id: 12,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },
@@ -158,7 +158,7 @@ const playerSkills = [
     },
     {
       id: 25,
-      rank: 1,
+      rank: 2,
       val: 10,
       cantrip: 0,
     },

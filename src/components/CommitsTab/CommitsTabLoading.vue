@@ -10,7 +10,7 @@
 
   const ticker = setInterval(() => {
     // 7 percent chance to curse
-    if (randomChance() < 5) loadingText.value = loadingText.value.concat(getRandomDirt(), " ");
+    if (randomChance() < 7) loadingText.value = loadingText.value.concat(getRandomDirt(), " ");
     else loadingText.value = loadingText.value.concat(". ");
   }, 250);
 
@@ -21,7 +21,7 @@
 </script>
 
 <template>
-  <div class="commits-tab">
+  <div>
     <h1>{{ loadingText }}</h1>
   </div>
 </template>
